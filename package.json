@@ -13,5 +13,14 @@
   },
   "dependencies": {
     "astro": "^6.1.5"
-  }
+  },
+  "description": "```sh\r npm create astro@latest -- --template basics\r ```",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com.ptbio:ptbio-ohkubo/egg-for-all.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
