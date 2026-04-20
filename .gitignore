@@ -24,4 +24,4 @@ pnpm-debug.log*
 .idea/
 
 #config
-/astro.config.mjs
+astro.config.mjs
