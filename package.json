@@ -1,0 +1,26 @@
+{
+  "name": "egg-for-all",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^6.1.5"
+  },
+  "description": "```sh\r npm create astro@latest -- --template basics\r ```",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com.ptbio:ptbio-ohkubo/egg-for-all.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
