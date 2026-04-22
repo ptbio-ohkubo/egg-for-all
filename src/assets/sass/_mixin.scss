@@ -1,0 +1,31 @@
+@use "_variables" as vars;
+
+@mixin xs {
+  @media only screen and (max-width: (vars.$xs)) {
+    @content;
+  }
+}
+
+@mixin xsm {
+  @media only screen and (max-width: (vars.$xsm)) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media only screen and (max-width: (vars.$sm)) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media only screen and (max-width: (vars.$md)) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media only screen and (max-width: (vars.$lg)) {
+    @content;
+  }
+}

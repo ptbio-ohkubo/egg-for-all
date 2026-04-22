@@ -1,0 +1,101 @@
+---
+interface Topic {
+    title: string;
+    body: string;
+}
+
+const topics: Topic[] = [
+    { title: "トピック 1", body: "ここにトピックの概要が入ります。" },
+    { title: "トピック 2", body: "ここにトピックの概要が入ります。" },
+    { title: "トピック 3", body: "ここにトピックの概要が入ります。" },
+];
+---
+
+<section id="topics" class="topics" aria-labelledby="topics-heading">
+    <div class="topics__inner">
+        <header class="topics__header">
+            <p class="topics__eyebrow">TOPICS</p>
+            <h2 id="topics-heading" class="topics__title">トピックス</h2>
+        </header>
+
+        <ul class="topics__list">
+            {topics.map((topic) => (
+                <li class="topics__item">
+                    <article class="topics__card">
+                        <h3 class="topics__card-title">{topic.title}</h3>
+                        <p class="topics__card-body">{topic.body}</p>
+                    </article>
+                </li>
+            ))}
+        </ul>
+    </div>
+</section>
+
+<style lang="scss">
+.topics {
+  padding: 80px 24px;
+  background-color: #fafafa;
+
+  @include mixin.xsm {
+    padding: 48px 16px;
+  }
+
+  &__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #888;
+  }
+
+  &__title {
+    margin: 4px 0 0;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    @include mixin.xsm {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  &__card {
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    height: 100%;
+  }
+
+  &__card-title {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__card-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+  }
+}
+</style>

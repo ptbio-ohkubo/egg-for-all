@@ -1,0 +1,107 @@
+---
+interface MoreLink {
+    label: string;
+    description: string;
+    href: string;
+}
+
+const links: MoreLink[] = [
+    { label: "FAQ", description: "よくあるご質問", href: "#" },
+    { label: "お問い合わせ", description: "サポート窓口", href: "#" },
+    { label: "採用情報", description: "キャリア情報", href: "#" },
+];
+---
+
+<section id="more" class="more" aria-labelledby="more-heading">
+    <div class="more__inner">
+        <header class="more__header">
+            <p class="more__eyebrow">MORE</p>
+            <h2 id="more-heading" class="more__title">もっと知る</h2>
+        </header>
+
+        <ul class="more__list">
+            {links.map((link) => (
+                <li class="more__item">
+                    <a href={link.href} class="more__link">
+                        <span class="more__link-label">{link.label}</span>
+                        <span class="more__link-desc">{link.description}</span>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
+</section>
+
+<style lang="scss">
+.more {
+  padding: 80px 24px;
+  background-color: #fff;
+
+  @include mixin.xsm {
+    padding: 48px 16px;
+  }
+
+  &__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #888;
+  }
+
+  &__title {
+    margin: 4px 0 0;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+
+    @include mixin.xsm {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      border-color: #333;
+      transform: translateY(-2px);
+    }
+  }
+
+  &__link-label {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__link-desc {
+    font-size: 13px;
+    color: #666;
+  }
+}
+</style>

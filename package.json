@@ -12,7 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.1.5"
+    "@iconify-json/mdi": "^1.2.3",
+    "astro": "^6.1.5",
+    "astro-icon": "^1.1.5"
   },
   "description": "```sh\r npm create astro@latest -- --template basics\r ```",
   "main": "index.js",
@@ -22,5 +24,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "sass-embedded": "^1.99.0"
+  }
 }

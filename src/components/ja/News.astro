@@ -1,0 +1,133 @@
+---
+interface NewsItem {
+    date: string;
+    category: string;
+    title: string;
+    href: string;
+}
+
+const news: NewsItem[] = [
+    {
+        date: "2026.04.20",
+        category: "お知らせ",
+        title: "サイトをリニューアルしました。",
+        href: "#",
+    },
+    {
+        date: "2026.04.10",
+        category: "商品",
+        title: "新商品の販売を開始しました。",
+        href: "#",
+    },
+    {
+        date: "2026.03.28",
+        category: "イベント",
+        title: "春のキャンペーンを実施します。",
+        href: "#",
+    },
+];
+---
+
+<section id="news" class="news" aria-labelledby="news-heading">
+    <div class="news__inner">
+        <header class="news__header">
+            <p class="news__eyebrow">NEWS</p>
+            <h2 id="news-heading" class="news__title">お知らせ</h2>
+        </header>
+
+        <ul class="news__list">
+            {news.map((item) => (
+                <li class="news__item">
+                    <a href={item.href} class="news__link">
+                        <time class="news__date" datetime={item.date}>{item.date}</time>
+                        <span class="news__category">{item.category}</span>
+                        <span class="news__title-text">{item.title}</span>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
+</section>
+
+<style lang="scss">
+.news {
+  padding: 80px 24px;
+  background-color: #fafafa;
+
+  @include mixin.xsm {
+    padding: 48px 16px;
+  }
+
+  &__inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #888;
+  }
+
+  &__title {
+    margin: 4px 0 0;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #eee;
+  }
+
+  &__item {
+    border-bottom: 1px solid #eee;
+  }
+
+  &__link {
+    display: grid;
+    grid-template-columns: 120px 100px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 20px 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #fff;
+    }
+
+    @include mixin.xsm {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+
+  &__date {
+    font-size: 13px;
+    color: #888;
+  }
+
+  &__category {
+    justify-self: start;
+    padding: 2px 10px;
+    font-size: 12px;
+    background: #333;
+    color: #fff;
+    border-radius: 4px;
+  }
+
+  &__title-text {
+    font-size: 15px;
+  }
+}
+</style>

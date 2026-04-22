@@ -1,0 +1,69 @@
+---
+---
+
+<section id="about" class="about" aria-labelledby="about-heading">
+    <div class="about__inner">
+        <header class="about__header">
+            <p class="about__eyebrow">ABOUT</p>
+            <h2 id="about-heading" class="about__title">私たちについて</h2>
+        </header>
+
+        <div class="about__body">
+            <p class="about__lead">
+                ここにブランドや会社の紹介文が入ります。
+            </p>
+            <p class="about__text">
+                ビジョン・ミッション・取り組みなど、訪問者に伝えたいストーリーをここに記述してください。
+                段落を増やすこともできますし、画像やリンクを組み合わせて紹介することも可能です。
+            </p>
+        </div>
+    </div>
+</section>
+
+<style lang="scss">
+.about {
+  padding: 80px 24px;
+  background-color: #fafafa;
+
+  @include mixin.xsm {
+    padding: 48px 16px;
+  }
+
+  &__inner {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &__header {
+    margin-bottom: 32px;
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #888;
+  }
+
+  &__title {
+    margin: 4px 0 0;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  &__lead {
+    margin: 0 0 16px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #444;
+  }
+}
+</style>

@@ -1,0 +1,107 @@
+---
+interface Product {
+    name: string;
+    caption: string;
+}
+
+const products: Product[] = [
+    { name: "Product A", caption: "商品キャッチコピー" },
+    { name: "Product B", caption: "商品キャッチコピー" },
+    { name: "Product C", caption: "商品キャッチコピー" },
+    { name: "Product D", caption: "商品キャッチコピー" },
+];
+---
+
+<section id="lineup" class="lineup" aria-labelledby="lineup-heading">
+    <div class="lineup__inner">
+        <header class="lineup__header">
+            <p class="lineup__eyebrow">LINEUP</p>
+            <h2 id="lineup-heading" class="lineup__title">商品ラインアップ</h2>
+        </header>
+
+        <ul class="lineup__list">
+            {products.map((product) => (
+                <li class="lineup__item">
+                    <article class="lineup__card">
+                        <div class="lineup__thumb" aria-hidden="true"></div>
+                        <h3 class="lineup__card-title">{product.name}</h3>
+                        <p class="lineup__card-caption">{product.caption}</p>
+                    </article>
+                </li>
+            ))}
+        </ul>
+    </div>
+</section>
+
+<style lang="scss">
+.lineup {
+  padding: 80px 24px;
+  background-color: #fff;
+
+  @include mixin.xsm {
+    padding: 48px 16px;
+  }
+
+  &__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #888;
+  }
+
+  &__title {
+    margin: 4px 0 0;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+
+    @include mixin.xsm {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, #eee, #ddd);
+    border-radius: 8px;
+  }
+
+  &__card-title {
+    margin: 8px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__card-caption {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+  }
+}
+</style>
