@@ -79,8 +79,16 @@ import { Icon } from "astro-icon/components";
       navMenu.classList.toggle("is-open");
     });
 
-    // ウィンドウリサイズ時に状態をリセット
+    // リサイズ中はトランジションを止める
+    // (ブレークポイントを跨いだ瞬間に translateX が animate されてしまうのを防ぐ)
+    let resizeTimer: number | undefined;
     window.addEventListener("resize", () => {
+      navMenu.classList.add("is-resizing");
+      if (resizeTimer !== undefined) window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        navMenu.classList.remove("is-resizing");
+      }, 120);
+
       const isTablet = window.matchMedia("(max-width: 748px)").matches;
       if (!isTablet) {
         hamburgerBtn.setAttribute("aria-expanded", "false");
@@ -164,6 +172,12 @@ import { Icon } from "astro-icon/components";
       transform: translateX(-100%);
       transition: transform 0.3s ease;
       z-index: 9998;
+
+      // リサイズ中はトランジションを止めて、ブレークポイントまたぎで
+      // メニューがスライドしながら表示されるのを防ぐ
+      &.is-resizing {
+        transition: none;
+      }
 
       &.is-open {
         transform: translateX(0);
