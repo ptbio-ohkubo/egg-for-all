@@ -11,8 +11,8 @@ const sassPath = path.resolve(projectRoot, 'src/assets/sass');
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ptbio.io/',
-  base: '/',
+  site: 'https://ptbio-ohkubo.github.io/',
+  base: '/egg-for-all/',
   integrations: [icon()],
   vite: {
     css: {
