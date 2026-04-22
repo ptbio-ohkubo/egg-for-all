@@ -1,0 +1,39 @@
+@use '_mixin' as mixin;
+
+$header-height: 130px;
+$header-height-sm: 80px;
+
+$box-width: 1000px;
+$box-padding: 30px;
+$box-padding-side-sm: 10px;
+
+/** ヘッダ分のマージン設定 **/
+.header_mt {
+  position: relative;
+  margin-top: $header-height;
+  height: 0;
+
+  @include mixin.sm {
+    margin-top: $header-height-sm;
+    height: 5px;
+    background-color: rgb(0, 94, 60);
+  }
+}
+
+.inner {
+  margin: auto;
+  padding-left: $box-padding;
+  padding-right: $box-padding;
+  max-width: $box-width;
+  box-sizing: border-box;
+
+  @include mixin.sm {
+    padding-left: $box-padding-side-sm;
+    padding-right: $box-padding-side-sm;
+  }
+}
+
+a,
+a:visited {
+  color: inherit;
+}

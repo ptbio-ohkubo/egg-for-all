@@ -1,0 +1,238 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Slide {
+    src: string;
+    alt: string;
+}
+
+// プレースホルダー画像（picsum.photos のシード付き。同じシードなら同じ画像が返る）
+const slides: Slide[] = [
+    { src: "https://picsum.photos/seed/ptbio-hero-1/1600/720", alt: "スライド1" },
+    { src: "https://picsum.photos/seed/ptbio-hero-2/1600/720", alt: "スライド2" },
+    { src: "https://picsum.photos/seed/ptbio-hero-3/1600/720", alt: "スライド3" },
+];
+
+const slideCount = slides.length;
+---
+
+<section
+    id="hero"
+    class="hero"
+    data-autoplay-interval="5000"
+    aria-roledescription="carousel"
+    aria-label="メインビジュアル"
+>
+    <div class="hero__viewport">
+        <ul class="hero__track">
+            {slides.map((slide, index) => (
+                <li
+                    class={`hero__slide${index === 0 ? " is-active" : ""}`}
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`${index + 1} / ${slideCount}`}
+                    aria-hidden={index === 0 ? "false" : "true"}
+                >
+                    <img
+                        class="hero__image"
+                        src={slide.src}
+                        alt={slide.alt}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchpriority={index === 0 ? "high" : "auto"}
+                        draggable="false"
+                    />
+                </li>
+            ))}
+        </ul>
+    </div>
+
+    <ul class="hero__dots" role="tablist" aria-label="スライド選択">
+        {slides.map((_, index) => (
+            <li class="hero__dots-item">
+                <button
+                    type="button"
+                    class={`hero__dot${index === 0 ? " is-active" : ""}`}
+                    role="tab"
+                    aria-label={`スライド ${index + 1} へ移動`}
+                    aria-selected={index === 0 ? "true" : "false"}
+                    data-hero-dot={index}
+                ></button>
+            </li>
+        ))}
+    </ul>
+</section>
+
+<script>
+    (() => {
+        const hero = document.getElementById("hero");
+        if (!hero) return;
+
+        const track = hero.querySelector<HTMLUListElement>(".hero__track");
+        const slides = hero.querySelectorAll<HTMLLIElement>(".hero__slide");
+        const dots = hero.querySelectorAll<HTMLButtonElement>("[data-hero-dot]");
+
+        if (!track || slides.length === 0) return;
+
+        const total = slides.length;
+        const intervalMs = Number(hero.dataset.autoplayInterval ?? 5000);
+        const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        let current = 0;
+        let timer: number | undefined;
+
+        const update = (next: number) => {
+            current = (next + total) % total;
+            track.style.transform = `translateX(-${current * 100}%)`;
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("is-active", i === current);
+                slide.setAttribute("aria-hidden", i === current ? "false" : "true");
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle("is-active", i === current);
+                dot.setAttribute("aria-selected", i === current ? "true" : "false");
+            });
+        };
+
+        const next = () => update(current + 1);
+        const prev = () => update(current - 1);
+
+        const start = () => {
+            if (prefersReducedMotion) return;
+            stop();
+            timer = window.setInterval(next, intervalMs);
+        };
+        const stop = () => {
+            if (timer !== undefined) {
+                window.clearInterval(timer);
+                timer = undefined;
+            }
+        };
+
+        dots.forEach((dot) => {
+            dot.addEventListener("click", () => {
+                const index = Number(dot.dataset.heroDot);
+                if (!Number.isNaN(index)) {
+                    update(index);
+                    start();
+                }
+            });
+        });
+
+        // ホバー中は停止
+        hero.addEventListener("mouseenter", stop);
+        hero.addEventListener("mouseleave", start);
+        // フォーカス中も停止（キーボード操作のため）
+        hero.addEventListener("focusin", stop);
+        hero.addEventListener("focusout", start);
+        // タブが非表示の間は停止
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) stop();
+            else start();
+        });
+
+        start();
+    })();
+</script>
+
+<style lang="scss">
+.hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #000;
+  // fixed ヘッダーに隠れないよう、ヘッダーの実寸ぶんだけ上に余白を取る
+  padding-top: var(--header-height, 0px);
+
+  &__viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    // <header> の実寸を引いてブラウザ下端にぴったり合わせる
+    // --header-height は Header.astro 側で動的に設定される
+    height: calc(100vh - var(--header-height, 0px));
+
+    @include mixin.xsm {
+      height: calc(60dvh - var(--header-height, 0px)); // モバイルのアドレスバー伸縮に追従
+    }
+  }
+
+  &__track {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transform: translateX(0);
+    transition: transform 0.6s ease;
+    will-change: transform;
+  }
+
+  &__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  &__dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 2;
+
+    @include mixin.xsm {
+      bottom: 8px;
+    }
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    &:focus-visible {
+      outline-offset: 2px;
+    }
+
+    &.is-active {
+      background: #fff;
+      transform: scale(1.25);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__track {
+    transition: none;
+  }
+}
+</style>
