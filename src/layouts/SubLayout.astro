@@ -1,0 +1,28 @@
+---
+import Layout from "./Layout.astro";
+import SubHeader from "../components/ja/SubHeader.astro";
+import Footer from "../components/ja/Footer.astro";
+
+interface Props {
+    langType?: string;
+    title: string;
+}
+
+const { langType = "ja", title } = Astro.props;
+---
+
+<Layout langType={langType} title={title}>
+    <SubHeader />
+    <main class="sub-main">
+        <slot />
+    </main>
+    <Footer />
+</Layout>
+
+<style lang="scss">
+.sub-main {
+  /* 固定ヘッダー分の余白 */
+  padding-top: var(--header-height, 64px);
+  min-height: calc(100vh - var(--header-height, 64px));
+}
+</style>

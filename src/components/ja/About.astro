@@ -1,21 +1,75 @@
 ---
+import { Icon } from "astro-icon/components";
+
+interface Feature {
+    number: string;
+    title: string;
+    image: string;
+    alt: string;
+}
+
+const features: Feature[] = [
+    {
+        number: "1",
+        title: "産まれた背景",
+        image: "https://picsum.photos/seed/ptbio-egg/800/600",
+        alt: "卵の写真",
+    },
+    {
+        number: "2",
+        title: "研究者の想い",
+        image: "https://picsum.photos/seed/ptbio-researcher/800/600",
+        alt: "研究者がピペットで実験している写真",
+    },
+    {
+        number: "3",
+        title: "目指す未来",
+        image: "https://picsum.photos/seed/ptbio-family/800/600",
+        alt: "幸せそうな家族が食卓を囲んでいる写真",
+    },
+];
 ---
 
 <section id="about" class="about" aria-labelledby="about-heading">
     <div class="about__inner">
-        <header class="about__header">
+        <div class="about__header">
             <p class="about__eyebrow">ABOUT</p>
-            <h2 id="about-heading" class="about__title">私たちについて</h2>
-        </header>
+            <h2 id="about-heading" class="about__title">Egg for All</h2>
+        </div>
 
         <div class="about__body">
             <p class="about__lead">
-                ここにブランドや会社の紹介文が入ります。
+                すべてのひとに、同じ食卓を。
             </p>
             <p class="about__text">
                 ビジョン・ミッション・取り組みなど、訪問者に伝えたいストーリーをここに記述してください。
                 段落を増やすこともできますし、画像やリンクを組み合わせて紹介することも可能です。
             </p>
+        </div>
+
+        <div class="about__features">
+            {features.map((feature) => (
+                <article class="about__feature">
+                    <div class="about__feature-media">
+                        <img
+                            src={feature.image}
+                            alt={feature.alt}
+                            class="about__feature-image"
+                            loading="lazy"
+                            draggable="false"
+                        />
+                    </div>
+                    <div class="about__feature-body">
+                        <h3 class="about__feature-title">
+                            <span class="about__feature-number">{feature.number}.</span>
+                            {feature.title}
+                        </h3>
+                        <span class="about__feature-more" aria-hidden="true">
+                            <Icon name="mdi:plus" size="20" />
+                        </span>
+                    </div>
+                </article>
+            ))}
         </div>
     </div>
 </section>
@@ -23,20 +77,28 @@
 <style lang="scss">
 .about {
   padding: 80px 24px;
-  background-color: #fafafa;
+  background-color: #ffffff; // #f5b22a; // 濃い黄色　f5b22a; うすい黄色　fff3cc 薄い緑　f0f1eb
+
+  /* 背景の egg.svg：右から 36px、縦中央。セクションのサイズに応じて拡縮 */
+  background-image: url("/images/egg.svg");
+  background-repeat: no-repeat;
+  background-position: right 36px center;
+  background-size: auto 90%;
 
   @include mixin.xsm {
     padding: 48px 16px;
+    background-position: right 16px center;
+    background-size: auto 35%;
   }
 
   &__inner {
-    max-width: 880px;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-gap: 36px;
     margin: 0 auto;
-    text-align: center;
   }
 
   &__header {
-    margin-bottom: 32px;
   }
 
   &__eyebrow {
@@ -52,6 +114,19 @@
     font-weight: 600;
   }
 
+  &__body {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 48px;
+
+    @include mixin.sm {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      grid-gap: 12px;
+    }
+  }
+
   &__lead {
     margin: 0 0 16px;
     font-size: 18px;
@@ -64,6 +139,112 @@
     font-size: 15px;
     line-height: 1.9;
     color: #444;
+  }
+
+  /* 3 分割（産まれた背景 / 研究者の想い / 目指す未来） */
+  &__features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    @include mixin.xsm {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__feature {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+
+    /* 写真に重ねる白文字の可読性を確保するオーバーレイ */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.35);
+      pointer-events: none;
+      z-index: 1;
+      transition: background-color 0.3s ease;
+    }
+
+    &:hover::after,
+    &:focus-within::after {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &__feature-media {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  &__feature-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* ゆっくりした拡大アニメーション */
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  &__feature:hover &__feature-image,
+  &__feature:focus-within &__feature-image {
+    transform: scale(1.08);
+  }
+
+  /* 写真の上にオーバーレイする本文（中央寄せ） */
+  &__feature-body {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+  }
+
+  &__feature-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  &__feature-number {
+    display: inline-block;
+    margin-right: 6px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  &__feature-more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  &__feature:hover &__feature-more,
+  &__feature:focus-within &__feature-more {
+    background-color: #fff;
+    color: #1a1a1a;
   }
 }
 </style>

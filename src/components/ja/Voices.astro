@@ -1,0 +1,350 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Voice {
+    name: string;
+    role: string;
+    comment: string;
+    avatar: string;
+}
+
+const voices: Voice[] = [
+    {
+        name: "A.K. 様",
+        role: "40代 / 女性",
+        comment:
+            "毎朝のたまご料理が楽しみになりました。安心して食べられる味わいで、家族みんな気に入っています。",
+        avatar: "https://picsum.photos/seed/ptbio-voice-1/200/200",
+    },
+    {
+        name: "T.S. 様",
+        role: "30代 / 男性",
+        comment:
+            "栄養バランスが考えられている点が魅力。食卓に並べるだけで満足感がぐっとアップしました。",
+        avatar: "https://picsum.photos/seed/ptbio-voice-2/200/200",
+    },
+    {
+        name: "M.H. 様",
+        role: "50代 / 女性",
+        comment:
+            "素材へのこだわりが一口食べてわかる美味しさ。大切な方へのプレゼントにもぴったりです。",
+        avatar: "https://picsum.photos/seed/ptbio-voice-3/200/200",
+    },
+    {
+        name: "Y.N. 様",
+        role: "20代 / 女性",
+        comment:
+            "今まで食べてきたたまごと違う濃厚さに驚きました。朝食のゆでたまごが特別な一品になります。",
+        avatar: "https://picsum.photos/seed/ptbio-voice-4/200/200",
+    },
+    {
+        name: "K.O. 様",
+        role: "60代 / 男性",
+        comment:
+            "健康に気を配る中で出会いました。卵かけごはんの味わいが深く、毎日の食卓が楽しみです。",
+        avatar: "https://picsum.photos/seed/ptbio-voice-5/200/200",
+    },
+    {
+        name: "R.T. 様",
+        role: "30代 / 女性",
+        comment:
+            "子どもが毎朝たまご焼きをリクエストするようになりました。安心して食べさせられる一品です。",
+        avatar: "https://picsum.photos/seed/ptbio-voice-6/200/200",
+    },
+];
+
+/* 無限ループ用：先頭から 3 枚をクローンしてリストの末尾に追加 */
+const CLONE_COUNT = 3;
+const slides = [...voices, ...voices.slice(0, CLONE_COUNT)];
+---
+
+<section id="voices" class="voices" aria-labelledby="voices-heading">
+    <div class="voices__inner">
+        <header class="voices__header">
+            <p class="voices__eyebrow">VOICE</p>
+            <h2 id="voices-heading" class="voices__title">お客様の声</h2>
+        </header>
+
+        <div
+            class="voices__viewport"
+            id="voices-viewport"
+            data-interval="3000"
+            data-total={voices.length}
+            aria-roledescription="carousel"
+            aria-label="お客様の声スライダー"
+        >
+            <ul class="voices__track" id="voices-track">
+                {slides.map((voice, i) => {
+                    const isClone = i >= voices.length;
+                    return (
+                        <li
+                            class="voices__item"
+                            aria-hidden={isClone ? "true" : "false"}
+                            role="group"
+                            aria-roledescription="slide"
+                        >
+                            <article class="voices__card">
+                                <span class="voices__quote" aria-hidden="true">
+                                    <Icon name="mdi:format-quote-open" size="28" />
+                                </span>
+                                <p class="voices__comment">{voice.comment}</p>
+                                <div class="voices__person">
+                                    <img
+                                        src={voice.avatar}
+                                        alt=""
+                                        class="voices__avatar"
+                                        loading="lazy"
+                                        draggable="false"
+                                    />
+                                    <div class="voices__meta">
+                                        <p class="voices__name">{voice.name}</p>
+                                        <p class="voices__role">{voice.role}</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    </div>
+</section>
+
+<script>
+    (() => {
+        const viewport = document.getElementById("voices-viewport");
+        const track = document.getElementById("voices-track");
+        if (!viewport || !track) return;
+
+        const intervalMs = Number(viewport.dataset.interval ?? 3000);
+        const total = Number(viewport.dataset.total ?? 0);
+        if (total <= 0) return;
+
+        const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        const getItemWidth = (): number => {
+            const item = track.querySelector<HTMLLIElement>(".voices__item");
+            return item ? item.getBoundingClientRect().width : 0;
+        };
+
+        let index = 0;
+        let timer: number | undefined;
+        let sliding = false;
+
+        const applyTransform = (withTransition: boolean) => {
+            track.style.transition = withTransition ? "transform 0.6s ease" : "none";
+            track.style.transform = `translateX(-${index * getItemWidth()}px)`;
+        };
+
+        const advance = () => {
+            if (sliding) return;
+            sliding = true;
+            index += 1;
+            applyTransform(true);
+
+            // クローン位置に到達したら、アニメーション終了後に先頭へスナップ
+            if (index >= total) {
+                window.setTimeout(() => {
+                    index = 0;
+                    applyTransform(false);
+                    // reflow を挟んで transition を次回から有効に
+                    void track.offsetWidth;
+                    sliding = false;
+                }, 640);
+            } else {
+                window.setTimeout(() => {
+                    sliding = false;
+                }, 640);
+            }
+        };
+
+        const start = () => {
+            stop();
+            if (prefersReducedMotion) return;
+            timer = window.setInterval(advance, intervalMs);
+        };
+
+        const stop = () => {
+            if (timer !== undefined) {
+                window.clearInterval(timer);
+                timer = undefined;
+            }
+        };
+
+        // マウスオーバー・フォーカス中は停止
+        viewport.addEventListener("mouseenter", stop);
+        viewport.addEventListener("mouseleave", start);
+        viewport.addEventListener("focusin", stop);
+        viewport.addEventListener("focusout", start);
+
+        // タブが非表示の間は停止
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) stop();
+            else start();
+        });
+
+        // リサイズ：トランジション無しで現在位置を再計算
+        let resizeRaf: number | undefined;
+        window.addEventListener("resize", () => {
+            if (resizeRaf !== undefined) window.cancelAnimationFrame(resizeRaf);
+            resizeRaf = window.requestAnimationFrame(() => {
+                applyTransform(false);
+            });
+        });
+
+        // 初期位置
+        applyTransform(false);
+        start();
+    })();
+</script>
+
+<style lang="scss">
+.voices {
+  padding: 80px 24px;
+  background-color: #f0f1eb;
+
+  @include mixin.xsm {
+    padding: 48px 16px;
+  }
+
+  &__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 48px;
+
+    @include mixin.xsm {
+      margin-bottom: 28px;
+    }
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #888;
+  }
+
+  &__title {
+    margin: 6px 0 0;
+    font-size: 28px;
+    font-weight: 700;
+
+    @include mixin.xsm {
+      font-size: 22px;
+    }
+  }
+
+  /* スライダー部分 */
+  &__viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    will-change: transform;
+  }
+
+  &__item {
+    /* デスクトップ：3 枚表示。横並びのためシュリンク/ラップ禁止 */
+    flex: 0 0 calc(100% / 3);
+    flex-shrink: 0;
+    min-width: 0;
+    padding: 0 12px;
+    box-sizing: border-box;
+    display: flex;
+
+    @include mixin.sm {
+      flex: 0 0 calc(100% / 2);
+      padding: 0 10px;
+    }
+
+    @include mixin.xsm {
+      flex: 0 0 100%;
+      padding: 0;
+    }
+  }
+
+  &__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 32px 24px 24px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    width: 100%;
+  }
+
+  &__quote {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #c9d0bf;
+  }
+
+  &__comment {
+    margin: 0;
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.95;
+    color: #333;
+  }
+
+  &__person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+  }
+
+  &__avatar {
+    display: block;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__meta {
+    min-width: 0;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  &__role {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #777;
+  }
+}
+
+/* モーション低減設定時はスライダーを止めて複数枚のままスクロール可 */
+@media (prefers-reduced-motion: reduce) {
+  .voices__track {
+    transition: none !important;
+  }
+}
+</style>

@@ -1,14 +1,43 @@
 ---
+import { Icon } from "astro-icon/components";
+
 interface MoreLink {
     label: string;
     description: string;
+    image: string;
+    alt: string;
     href: string;
 }
 
 const links: MoreLink[] = [
-    { label: "FAQ", description: "よくあるご質問", href: "#" },
-    { label: "お問い合わせ", description: "サポート窓口", href: "#" },
-    { label: "採用情報", description: "キャリア情報", href: "#" },
+    {
+        label: "安全安心への取り組み",
+        description: "安全で高品質な製品づくりのための衛生管理や品質保証の取り組みをご紹介します。",
+        image: "https://picsum.photos/seed/ptbio-safety/800/800",
+        alt: "品質管理の様子",
+        href: "#",
+    },
+    {
+        label: "開発ストーリー",
+        description: "egg for all が誕生するまでのストーリーと、開発に込めた想いを紹介します。",
+        image: "https://picsum.photos/seed/ptbio-story/800/800",
+        alt: "開発風景",
+        href: "#",
+    },
+    {
+        label: "ブランドブック",
+        description: "「すべての人にやさしい、たまごを。」私たちが描く未来と想いをお届けします。",
+        image: "https://picsum.photos/seed/ptbio-brandbook/800/800",
+        alt: "ブランドブック",
+        href: "#",
+    },
+    {
+        label: "egg for all Labo",
+        description: "ユーザーと研究者がつながり、これからのたまごの可能性を共創するオンラインコミュニティです。",
+        image: "https://picsum.photos/seed/ptbio-labo/800/800",
+        alt: "研究ラボ",
+        href: "#",
+    },
 ];
 ---
 
@@ -22,9 +51,23 @@ const links: MoreLink[] = [
         <ul class="more__list">
             {links.map((link) => (
                 <li class="more__item">
-                    <a href={link.href} class="more__link">
-                        <span class="more__link-label">{link.label}</span>
-                        <span class="more__link-desc">{link.description}</span>
+                    <a href={link.href} class="more__card" aria-label={link.label}>
+                        <div class="more__media">
+                            <img
+                                src={link.image}
+                                alt={link.alt}
+                                class="more__image"
+                                loading="lazy"
+                                draggable="false"
+                            />
+                        </div>
+                        <div class="more__content">
+                            <h3 class="more__label">{link.label}</h3>
+                            <p class="more__desc">{link.description}</p>
+                            <span class="more__arrow" aria-hidden="true">
+                                <Icon name="mdi:arrow-top-right" size="20" />
+                            </span>
+                        </div>
                     </a>
                 </li>
             ))}
@@ -35,20 +78,28 @@ const links: MoreLink[] = [
 <style lang="scss">
 .more {
   padding: 80px 24px;
-  background-color: #fff;
+  background-color: #ffffff;
 
   @include mixin.xsm {
     padding: 48px 16px;
   }
 
   &__inner {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
+
+    /* 960px 以上は 2 段組用に幅を広く */
+    @media (min-width: 961px) {
+      max-width: 1200px;
+    }
   }
 
   &__header {
-    text-align: center;
     margin-bottom: 40px;
+
+    @include mixin.xsm {
+      margin-bottom: 24px;
+    }
   }
 
   &__eyebrow {
@@ -59,49 +110,175 @@ const links: MoreLink[] = [
   }
 
   &__title {
-    margin: 4px 0 0;
+    margin: 6px 0 0;
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 700;
+
+    @include mixin.xsm {
+      font-size: 22px;
+    }
   }
 
+  /* 区切り線で挟まれた縦積みリスト */
   &__list {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    border-top: 1px solid #e5e5e5;
 
-    @include mixin.xsm {
-      grid-template-columns: 1fr;
+    /* 960px 以上は 2 段組 */
+    @media (min-width: 961px) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 48px;
+      row-gap: 0;
     }
   }
 
-  &__link {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 24px;
-    border: 1px solid #eee;
-    border-radius: 8px;
+  &__item {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  &__card {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    column-gap: 56px;
+    align-items: start;
+    padding: 32px 8px;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
+    height: 100%;
 
     &:hover {
-      border-color: #333;
-      transform: translateY(-2px);
+      background-color: #fafafa;
+    }
+
+    /* 960px 以下はボックス高さを約 2/3 に抑えるため余白をコンパクトに */
+    @include mixin.sm {
+      column-gap: 32px;
+      padding: 18px 4px;
+    }
+
+    @include mixin.xsm {
+      grid-template-columns: 128px 1fr;
+      column-gap: 16px;
+      padding: 14px 4px;
+    }
+
+    /* 960px 以上：2 段組内で収まるよう画像と余白を縮める */
+    @media (min-width: 961px) {
+      grid-template-columns: 180px 1fr;
+      column-gap: 28px;
+      padding: 28px 4px;
     }
   }
 
-  &__link-label {
-    font-size: 16px;
-    font-weight: 600;
+  &__media {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+
+    /* 960px 以下は高さを抑えるため横長比率に */
+    @include mixin.sm {
+      aspect-ratio: 3 / 2;
+    }
   }
 
-  &__link-desc {
-    font-size: 13px;
-    color: #666;
+  &__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  &__card:hover &__image,
+  &__card:focus-visible &__image {
+    transform: scale(1.05);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 4px 0;
+
+    @include mixin.sm {
+      gap: 12px;
+      padding: 2px 0;
+    }
+
+    @include mixin.xsm {
+      gap: 10px;
+      padding: 0;
+    }
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.45;
+    color: #1a1a1a;
+
+    @include mixin.xsm {
+      font-size: 16px;
+    }
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.95;
+    color: #333;
+
+    @include mixin.xsm {
+      font-size: 13px;
+      line-height: 1.8;
+    }
+  }
+
+  /* 右上向き矢印の丸リングアイコン */
+  &__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #cccccc;
+    border-radius: 50%;
+    color: #1a1a1a;
+    background-color: transparent;
+    transition: transform 0.3s ease, border-color 0.3s ease,
+      background-color 0.3s ease, color 0.3s ease;
+    margin-top: 4px;
+
+    @include mixin.sm {
+      width: 40px;
+      height: 40px;
+      margin-top: 0;
+    }
+
+    @include mixin.xsm {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  &__card:hover &__arrow,
+  &__card:focus-visible &__arrow {
+    border-color: #1a1a1a;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    transform: translate(2px, -2px);
+  }
+
+  &__card:focus-visible {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
   }
 }
 </style>

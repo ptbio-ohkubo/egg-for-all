@@ -1,0 +1,376 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface MenuItem {
+    label: string;
+    href: string;
+}
+
+const menuItems: MenuItem[] = [
+    { label: "商品一覧", href: "#" },
+    { label: "ブランドについて", href: "#" },
+    { label: "安心安全への取り組み", href: "#" },
+    { label: "ニュース", href: "#" },
+    { label: "お問い合わせ", href: "#" },
+];
+---
+
+<header id="sub-header" class="sub-header">
+    <div class="sub-header__inner">
+        <!-- 左：ロゴ（トップページへのリンク） -->
+        <h1 class="sub-header__logo">
+            <a href="/" aria-label="トップページへ戻る">PtBio</a>
+        </h1>
+
+        <!-- 真ん中：メニュー -->
+        <nav id="sub-nav" class="sub-header__nav" aria-label="メインナビゲーション">
+            <ul class="sub-header__menu">
+                {menuItems.map((item) => (
+                    <li class="sub-header__menu-item">
+                        <a href={item.href}>{item.label}</a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
+
+        <!-- 右：アイコン群 + ハンバーガー -->
+        <div class="sub-header__actions">
+            <ul class="sub-header__icons">
+                <li>
+                    <a href="#" aria-label="ヘルプ">
+                        <Icon name="mdi:help-circle-outline" size="24" />
+                    </a>
+                </li>
+                <li>
+                    <a href="#" aria-label="カート">
+                        <Icon name="mdi:cart-outline" size="24" />
+                    </a>
+                </li>
+                <li>
+                    <a href="#" aria-label="アカウント">
+                        <Icon name="mdi:account" size="24" />
+                    </a>
+                </li>
+                <li>
+                    <a href="#" aria-label="言語">
+                        <Icon name="mdi:earth" size="24" />
+                    </a>
+                </li>
+            </ul>
+
+            <button
+                id="sub-hamburger-toggle"
+                class="sub-header__hamburger"
+                aria-label="メニュー"
+                aria-expanded="false"
+                aria-controls="sub-nav"
+                type="button"
+            >
+                <Icon name="mdi:menu" size="28" class="sub-header__hamburger-icon sub-header__hamburger-icon--open" />
+                <Icon name="mdi:close" size="28" class="sub-header__hamburger-icon sub-header__hamburger-icon--close" />
+            </button>
+        </div>
+    </div>
+</header>
+
+<script>
+    (() => {
+        const header = document.getElementById("sub-header");
+        const hamburgerBtn = document.getElementById("sub-hamburger-toggle");
+        const nav = document.getElementById("sub-nav");
+
+        if (!header || !hamburgerBtn || !nav) return;
+
+        // <header> の高さを CSS 変数 --header-height に同期
+        const root = document.documentElement;
+        const updateHeaderHeight = () => {
+            const h = header.getBoundingClientRect().height;
+            root.style.setProperty("--header-height", `${h}px`);
+        };
+        updateHeaderHeight();
+
+        if (typeof ResizeObserver !== "undefined") {
+            const ro = new ResizeObserver(updateHeaderHeight);
+            ro.observe(header);
+        } else {
+            window.addEventListener("resize", updateHeaderHeight);
+        }
+        window.addEventListener("load", updateHeaderHeight);
+
+        // ハンバーガー開閉
+        const closeMenu = () => {
+            hamburgerBtn.setAttribute("aria-expanded", "false");
+            nav.classList.remove("is-open");
+            document.body.classList.remove("is-nav-open");
+        };
+        const openMenu = () => {
+            hamburgerBtn.setAttribute("aria-expanded", "true");
+            nav.classList.add("is-open");
+            document.body.classList.add("is-nav-open");
+        };
+
+        hamburgerBtn.addEventListener("click", () => {
+            const isExpanded = hamburgerBtn.getAttribute("aria-expanded") === "true";
+            if (isExpanded) closeMenu();
+            else openMenu();
+        });
+
+        // メニュー内リンククリックで閉じる
+        nav.querySelectorAll("a").forEach((a) => {
+            a.addEventListener("click", () => {
+                if (window.matchMedia("(max-width: 960px)").matches) closeMenu();
+            });
+        });
+
+        // Esc キーで閉じる
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && nav.classList.contains("is-open")) closeMenu();
+        });
+
+        // リサイズ時：ブレークポイントを越えたら閉じ、トランジションを一時停止
+        let resizeTimer: number | undefined;
+        window.addEventListener("resize", () => {
+            nav.classList.add("is-resizing");
+            if (resizeTimer !== undefined) window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(() => {
+                nav.classList.remove("is-resizing");
+            }, 120);
+
+            const isMobile = window.matchMedia("(max-width: 960px)").matches;
+            if (!isMobile) closeMenu();
+        });
+    })();
+</script>
+
+<style lang="scss">
+.sub-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  height: 64px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+
+  &__inner {
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "logo nav actions";
+    align-items: center;
+    column-gap: 24px;
+
+    @include mixin.sm {
+      padding: 0 16px;
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: "logo . actions";
+      column-gap: 12px;
+    }
+  }
+
+  /* 左：ロゴ */
+  &__logo {
+    grid-area: logo;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1;
+
+    a {
+      display: inline-block;
+      color: #1a1a1a;
+      text-decoration: none;
+      padding: 4px 0;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  /* 真ん中：メニュー */
+  &__nav {
+    grid-area: nav;
+    justify-self: center;
+
+    @include mixin.sm {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: calc(100dvh - 64px);
+      background-color: #ffffff;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      justify-self: stretch;
+      z-index: 9998;
+
+      &.is-resizing {
+        transition: none;
+      }
+
+      &.is-open {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  &__menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+
+    @include mixin.sm {
+      flex-direction: column;
+      gap: 0;
+      padding: 8px 0;
+    }
+  }
+
+  &__menu-item {
+    a {
+      display: inline-block;
+      color: #333;
+      text-decoration: none;
+      padding: 6px 0;
+      position: relative;
+      transition: color 0.2s ease;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background-color: currentColor;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.2s ease;
+      }
+
+      &:hover {
+        color: #000;
+
+        &::after {
+          transform: scaleX(1);
+        }
+      }
+    }
+
+    @include mixin.sm {
+      border-bottom: 1px solid #f0f0f0;
+
+      a {
+        display: block;
+        padding: 16px 20px;
+        font-size: 15px;
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  /* 右：アイコン群 + ハンバーガー */
+  &__actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-self: end;
+  }
+
+  &__icons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: #333;
+      border-radius: 50%;
+      transition: background-color 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        color: #000;
+        background-color: #f2f2f2;
+      }
+    }
+
+    @include mixin.xs {
+      gap: 0;
+
+      a {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+
+  /* ハンバーガーボタン：スマホサイズ以下のみ表示 */
+  &__hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+
+    @include mixin.sm {
+      display: inline-flex;
+    }
+  }
+
+  &__hamburger-icon {
+    &--close {
+      display: none;
+    }
+  }
+
+  &__hamburger[aria-expanded="true"] &__hamburger-icon--open {
+    display: none;
+  }
+  &__hamburger[aria-expanded="true"] &__hamburger-icon--close {
+    display: inline-block;
+  }
+}
+
+/* メニュー展開中は body のスクロールをロック */
+:global(body.is-nav-open) {
+  overflow: hidden;
+}
+</style>

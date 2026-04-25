@@ -1,13 +1,13 @@
 ---
 interface Topic {
+    image: '',
     title: string;
     body: string;
 }
 
 const topics: Topic[] = [
-    { title: "トピック 1", body: "ここにトピックの概要が入ります。" },
-    { title: "トピック 2", body: "ここにトピックの概要が入ります。" },
-    { title: "トピック 3", body: "ここにトピックの概要が入ります。" },
+    { image: '', title: "トピック 1", body: "ここにトピックの概要が入ります。" },
+    { image: '', title: "トピック 2", body: "ここにトピックの概要が入ります。" },
 ];
 ---
 
@@ -22,6 +22,9 @@ const topics: Topic[] = [
             {topics.map((topic) => (
                 <li class="topics__item">
                     <article class="topics__card">
+                        <div>
+                            <img src=`${topic.image}`>
+                        </div>
                         <h3 class="topics__card-title">{topic.title}</h3>
                         <p class="topics__card-body">{topic.body}</p>
                     </article>
@@ -34,20 +37,30 @@ const topics: Topic[] = [
 <style lang="scss">
 .topics {
   padding: 80px 24px;
-  background-color: #fafafa;
 
   @include mixin.xsm {
     padding: 48px 16px;
   }
 
   &__inner {
-    max-width: 1200px;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: start;
+
+    @include mixin.sm {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      grid-gap: 24px;
+      margin: 0 auto;
+    }
   }
 
   &__header {
-    text-align: center;
-    margin-bottom: 40px;
+    text-align: left;
+    margin-bottom: 0;
+
+    @include mixin.sm {
+    }
   }
 
   &__eyebrow {
@@ -61,6 +74,11 @@ const topics: Topic[] = [
     margin: 4px 0 0;
     font-size: 28px;
     font-weight: 600;
+
+    @media (min-width: 961px) {
+      font-size: 32px;
+      line-height: 1.4;
+    }
   }
 
   &__list {
@@ -68,12 +86,18 @@ const topics: Topic[] = [
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
 
     @include mixin.xsm {
       grid-template-columns: 1fr;
       gap: 16px;
+    }
+
+    /* 960px 以上：右カラム内で横並び */
+    @media (min-width: 961px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
     }
   }
 
