@@ -1,0 +1,198 @@
+---
+// Final CTA — email notification signup
+---
+
+<section class="cta-section" id="notify">
+  <div class="cta-egg-l"></div>
+  <div class="cta-egg-r"></div>
+  <div class="cta-inner">
+    <div class="cta-eyebrow">Coming Soon — 2027</div>
+    <h2>販売開始を、<br />いち早く<em>お知らせします</em></h2>
+    <p>
+      2027年度の市場投入に向けて着実に進んでいます。<br />
+      販売開始・最新情報をメールでお届けします。
+    </p>
+
+    <form class="notify-form" id="notifyForm" onsubmit="return false;">
+      <input
+        type="email"
+        id="notifyEmail"
+        placeholder="メールアドレスを入力"
+        required
+      />
+      <button type="submit" id="notifyBtn">通知を受け取る</button>
+    </form>
+    <p class="cta-note">
+      スパムは一切送りません。販売開始時のみご連絡します。
+    </p>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("notifyForm");
+  const email = document.getElementById("notifyEmail") as HTMLInputElement | null;
+  const btn = document.getElementById("notifyBtn") as HTMLButtonElement | null;
+  form?.addEventListener("submit", () => {
+    if (!email || !btn) return;
+    if (email.value.includes("@") && email.value.includes(".")) {
+      btn.textContent = "✓ 登録しました";
+      btn.style.background = "#005e3c";
+      email.disabled = true;
+      btn.disabled = true;
+    } else {
+      email.style.borderColor = "rgba(255,100,100,0.6)";
+      setTimeout(() => (email.style.borderColor = ""), 1500);
+    }
+  });
+</script>
+
+<style>
+  .cta-section {
+    background: linear-gradient(160deg, var(--teal-bg) 0%, var(--teal-d) 100%);
+    padding: 130px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-egg-l,
+  .cta-egg-r {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .cta-egg-l {
+    width: 320px;
+    height: 380px;
+    left: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .cta-egg-r {
+    width: 240px;
+    height: 280px;
+    right: -40px;
+    bottom: -60px;
+  }
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .cta-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold-l);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .cta-section h2 {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    letter-spacing: -0.3px;
+  }
+  .cta-section h2 em {
+    font-style: normal;
+    color: var(--gold-l);
+    background: linear-gradient(transparent 60%, rgba(201, 169, 58, 0.25) 60%);
+    padding: 0 4px;
+  }
+  .cta-section p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.95;
+    margin-bottom: 44px;
+  }
+
+  .notify-form {
+    display: flex;
+    gap: 12px;
+    max-width: 520px;
+    margin: 0 auto 20px;
+  }
+  .notify-form input {
+    flex: 1;
+    padding: 16px 22px;
+    border-radius: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(8px);
+    color: white;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    outline: none;
+    transition: border 0.2s;
+  }
+  .notify-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .notify-form input:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+  .notify-form input:disabled {
+    opacity: 0.7;
+  }
+  .notify-form button {
+    background: var(--gold);
+    color: white;
+    padding: 16px 30px;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: all 0.2s;
+    box-shadow: 0 6px 18px rgba(201, 169, 58, 0.35);
+  }
+  .notify-form button:hover:not(:disabled) {
+    background: #b89530;
+    transform: translateY(-1px);
+  }
+  .cta-section p.cta-note {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 0;
+  }
+  .cta-or {
+    color: rgba(255, 255, 255, 0.4);
+    margin: 32px 0 18px;
+    font-size: 13px;
+  }
+  .cta-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .link-w {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+  .link-w:hover {
+    color: white;
+    border-color: white;
+  }
+
+  @media (max-width: 900px) {
+    .cta-section {
+      padding: 80px 20px;
+    }
+    .cta-section h2 {
+      font-size: 30px;
+    }
+    .notify-form {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,23 +1,134 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Egg for All — 卵アレルギーのあるすべての人へ",
+  description = "卵アレルギーの主な原因「オボムコイド」をゲノム編集で除去。これまで卵を食べられなかった、すべての人のために。プラチナバイオ × 広島大学が2027年度の市場投入を目指して開発中。",
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500;1,700&family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  /* ── DESIGN TOKENS ───────────────────────────────── */
+  :root {
+    --teal: #6b9f9b;
+    --teal-d: #005e3c;
+    --teal-l: #9fc5c2;
+    --teal-p: #eaf4f3;
+    --teal-bg: #5c8d8a;
+    --cream: #f8f3eb;
+    --cream2: #fffdf8;
+    --warm: #f2ead8;
+    --gold: #e5a51c;
+    --gold-l: #e5a51c;
+    --gold-p: #fdf6dc;
+    --dark: #1e2e2c;
+    --text: #3a4845;
+    --muted: #c11a1a;
+    --white: #ffffff;
+    --r: 16px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+
+  /* Grain texture */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.028;
+  }
+
+  /* Shared section utilities */
+  .sec-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    color: var(--teal-d);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sec-label::after {
+    content: "";
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--teal-l);
+  }
+  .sec-h {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .sec-h em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .sec-h em.gold {
+    color: var(--gold);
+  }
+  .sec-lead {
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.9;
+    font-weight: 300;
+    max-width: 620px;
+  }
+
+  @media (max-width: 900px) {
+    .sec-h {
+      font-size: 32px;
+    }
+  }
 </style>

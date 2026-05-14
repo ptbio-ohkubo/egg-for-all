@@ -1,0 +1,179 @@
+---
+// Who is this for — 2 audience cards
+---
+
+<section class="for-section" id="for-you">
+  <div class="for-inner">
+    <div class="for-header">
+      <div class="for-header-left">
+        <div class="sec-label">This is for you</div>
+        <h2 class="sec-h">こんな方へ<em>届けたい</em></h2>
+      </div>
+      <div class="for-header-right">
+        <p class="sec-lead">
+          卵アレルギーは日本で最も多い食物アレルギー。乳幼児の5〜10%が卵アレルギーといわれています。
+        </p>
+      </div>
+    </div>
+    <div class="for-grid">
+      <div class="for-card card-family">
+        <div class="for-card-corner"></div>
+        <div class="for-card-icon">👨‍👩‍👧</div>
+        <h3>卵アレルギーのお子さんを<br /><em>持つご家族へ</em></h3>
+        <p>
+          「ケーキも食べられない」「遠足のお弁当に卵が使えない」—— そんな毎日から解放される日が来ます。
+        </p>
+        <ul class="check-list">
+          <li>卵を使ったお菓子や料理を安心して食べられる</li>
+          <li>食品表示を毎回チェックするストレスから解放</li>
+          <li>子どもの笑顔のために、一緒に卵料理を楽しめる</li>
+        </ul>
+      </div>
+      <div class="for-card card-allergy">
+        <div class="for-card-corner"></div>
+        <div class="for-card-icon">🌿</div>
+        <h3>卵アレルギーを抱える<br /><em>すべての方へ</em></h3>
+        <p>
+          大人になっても卵アレルギーが続く方、卵を諦めて生活している方にも。普通の卵と同じように使える製品をお届けします。
+        </p>
+        <ul class="check-list">
+          <li>基本的な栄養成分は通常の卵とほぼ同じ</li>
+          <li>適切な加熱加工でアレルゲンフリーを実現</li>
+          <li>安全性を臨床研究で確認しながら開発中</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .for-section {
+    background: var(--cream2);
+    padding: 100px 48px;
+  }
+  .for-section .sec-h {
+    font-family: "Noto Sans JP", sans-serif;
+  }
+  .for-section .sec-h em {
+    font-style: normal;
+  }
+  .for-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Header (左右2分割) ─────────────────────────────── */
+  .for-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    padding-bottom: 56px;
+  }
+  .for-header-left {
+    text-align: left;
+  }
+  .for-header-right {
+    text-align: left;
+  }
+  .for-header .sec-lead {
+    margin: 0;
+  }
+
+  .for-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .for-card {
+    border-radius: 24px;
+    padding: 48px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .for-card.card-family {
+    background: linear-gradient(145deg, var(--teal-p), #daeee9);
+    border: 1.5px solid rgba(107, 159, 155, 0.2);
+  }
+  .for-card.card-allergy {
+    background: linear-gradient(145deg, var(--warm), #ede5d0);
+    border: 1.5px solid rgba(201, 169, 58, 0.2);
+  }
+  .for-card-icon {
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+  .for-card h3 {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  .for-card h3 :global(em) {
+    font-style: normal;
+    color: var(--teal-d);
+    background: linear-gradient(transparent 60%, rgba(255, 255, 255, 0.5) 60%);
+  }
+  .card-allergy h3 :global(em) {
+    color: var(--gold);
+  }
+  .for-card p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.95;
+  }
+  .for-card-corner {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(107, 159, 155, 0.08);
+  }
+  .card-allergy .for-card-corner {
+    background: rgba(201, 169, 58, 0.08);
+  }
+
+  .check-list {
+    list-style: none;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .check-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .check-list li::before {
+    content: "✓";
+    color: var(--teal-d);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .card-allergy .check-list li::before {
+    color: var(--gold);
+  }
+
+  @media (max-width: 900px) {
+    .for-section {
+      padding: 70px 20px;
+    }
+    .for-header {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding-bottom: 40px;
+    }
+    .for-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

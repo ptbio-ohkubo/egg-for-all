@@ -1,0 +1,126 @@
+---
+// Research & development partners - Timee LP companies-logos style
+const partners = [
+  { icon: "🎓", name: "広島大学", sub: "Platinum TALEN技術" },
+  { icon: "🧪", name: "プラチナバイオ", sub: "事業化パートナー" },
+  { icon: "🥗", name: "キユーピー株式会社", sub: "共同研究・食品開発" },
+  { icon: "🏥", name: "相模原病院", sub: "アレルギー臨床研究" },
+  { icon: "🏛️", name: "農林水産省", sub: "販売認可申請中" },
+  { icon: "🏛️", name: "消費者庁", sub: "販売認可申請中" },
+];
+---
+
+<section class="partners-section">
+  <div class="partners-inner">
+    <h3 class="partners-title">
+      産学連携・大学発スタートアップで<br />
+      <em>22年以上の研究実績</em>を結実
+    </h3>
+
+    <div class="partners-marquee">
+      <div class="partners-track">
+        {
+          partners.map((p) => (
+            <div class="partner-card">
+              <div class="partner-icon">{p.icon}</div>
+              <div class="partner-meta">
+                <div class="partner-name">{p.name}</div>
+                <div class="partner-sub">{p.sub}</div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .partners-section {
+    background: #ffffff;
+    padding: 80px 40px 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .partners-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .partners-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #005e3c;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .partners-title {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  .partners-title em {
+    font-style: normal;
+    color: var(--teal-d);
+  }
+
+  .partners-marquee {
+    padding: 80px 48px 0;
+  }
+  .partners-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .partner-card {
+    background: white;
+    border: 1.5px solid rgba(107, 159, 155, 0.18);
+    border-radius: 16px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 12px rgba(74, 126, 122, 0.05);
+    transition: all 0.25s;
+  }
+  .partner-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--teal-l);
+    box-shadow: 0 8px 24px rgba(74, 126, 122, 0.1);
+  }
+  .partner-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .partner-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 2px;
+  }
+  .partner-sub {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+
+  @media (max-width: 900px) {
+    .partners-section {
+      padding: 60px 20px;
+    }
+    .partners-title {
+      font-size: 32px;
+    }
+    .partners-track {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 540px) {
+    .partners-track {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

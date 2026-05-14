@@ -1,0 +1,269 @@
+---
+// FAQ — Timee LP style accordion
+const faqs = [
+  {
+    q: "ゲノム編集卵って安全なの？",
+    a: "外来遺伝子の挿入は一切なく、オボムコイドをコードする部分のDNAをわずか数文字（約10塩基）削除しただけです。自然界でも起こりうる変化と同等で、全ゲノム解析・キユーピーとの共同研究・相模原病院での臨床研究という3段階で徹底的に安全性を検証しています。「遺伝子組換え食品（GMO）」とは区別されます。",
+  },
+  {
+    q: "子どもに食べさせても大丈夫？",
+    a: "現在、相模原病院で実患者を対象とした臨床研究を実施中です。安全性が確認された後、医師との相談のもと食事に取り入れていただくことを想定しています。販売開始時には、医療機関と連携した安心して導入できる仕組みもご案内する予定です。",
+  },
+  {
+    q: "普通の卵と栄養成分はどう違う？",
+    a: "基本的な栄養成分（タンパク質・脂質・ビタミン・ミネラル等）は通常の卵とほぼ同じです。違いはオボムコイドが含まれないこと。卵白成分の約11%を占めるオボムコイドが取り除かれていますが、その他の栄養素には大きな差はありません。詳細な成分表は販売時に公開します。",
+  },
+  {
+    q: "価格はいくらくらいになるの？",
+    a: "通常の卵と比べてどの程度の価格差になるかは、生産規模と販売チャネルにより異なります。現在大量生産体制を構築中で、できるだけ多くのご家庭にお届けできる価格設定を目指しています。詳細は販売開始時に発表予定です。",
+  },
+  {
+    q: "どこで買えるようになるの？",
+    a: "まずはオンラインショップでの販売、その後スーパーマーケットなど店頭への展開を計画しています。最初は加熱加工食品（プリン・クッキー・蒸しパン等）からスタートし、徐々に商品ラインを拡大していきます。販売開始時にメールでお知らせします。",
+  },
+  {
+    q: "生卵としても食べられる？",
+    a: "現時点では加熱加工食品からの販売を計画しています。アレルゲンフリーを確実にするためには適切な加熱が必要なため、まずはプリン・クッキー等の加工食品から市場展開します。生卵としての販売は将来的な課題として検討中です。",
+  },
+  {
+    q: "アレルギー検査は受ける必要がある？",
+    a: "卵アレルギーの種類は人によって異なります。オボムコイド以外のアレルゲン（オボアルブミン・オボトランスフェリン等）に強く反応する方も少数いらっしゃいます。販売開始時には、事前のアレルギー検査や医師との相談をおすすめする仕組みをご案内する予定です。",
+  },
+  {
+    q: "大人になってからの卵アレルギーにも効果がある？",
+    a: "卵アレルギーの主因は年齢に関わらずオボムコイドであることが多いため、大人の方にも有用と考えています。ただし個人差があるため、必ず医師と相談のうえで段階的に食事に取り入れていただくことをおすすめします。",
+  },
+  {
+    q: "「Platinum TALEN」って何？CRISPR/Cas9とは違うの？",
+    a: "Platinum TALENは広島大学が独自に開発したゲノム編集ツールで、CRISPR/Cas9よりも標的特異性が高く、狙った遺伝子だけを正確に修飾できるのが特徴です。オフターゲット（意図しない場所への作用）の影響が極めて少ないため、安全性の観点から食用ニワトリの開発に最適と判断しました。",
+  },
+  {
+    q: "販売開始日はいつ決まる？",
+    a: "現在、臨床研究・販売認可申請・大量生産体制の構築を並行して進めており、2027年度の市場投入を目指しています。具体的な販売開始日は、認可取得と生産体制が整い次第発表します。メール登録いただいた方には、決定次第いち早くお知らせします。",
+  },
+];
+---
+
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="faq-header">
+      <div class="sec-label">FAQ</div>
+      <h2 class="sec-h">よくある<em>質問</em></h2>
+      <p class="sec-lead">
+        Egg for Allについて、よくいただくご質問にお答えします。<br/>
+        その他のご質問は <a
+          href="mailto:info@egg-for-all.jp">info@egg-for-all.jp</a
+        > までお気軽にお問い合わせください。
+      </p>
+    </div>
+
+    <ul class="faq-list">
+      {
+        faqs.map((f) => (
+          <li class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false">
+              <span class="faq-q-mark">Q</span>
+              <span class="faq-q-text">{f.q}</span>
+              <span class="faq-q-icon" aria-hidden="true">
+                <span class="faq-q-icon-h" />
+                <span class="faq-q-icon-v" />
+              </span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                <span class="faq-a-mark">A</span>
+                <p>{f.a}</p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".faq-item").forEach((item) => {
+    const btn = item.querySelector<HTMLButtonElement>(".faq-q");
+    const ans = item.querySelector<HTMLElement>(".faq-a");
+    btn?.addEventListener("click", () => {
+      const open = item.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(open));
+      if (ans) {
+        if (open) {
+          ans.style.maxHeight = ans.scrollHeight + "px";
+        } else {
+          ans.style.maxHeight = "0px";
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .faq-section {
+    background: #ffffff;
+    padding: 110px 48px;
+  }
+  .faq-inner {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .faq-section .sec-h {
+    font-family: "Noto Sans JP", sans-serif;
+  }
+  .faq-section .sec-h em {
+    font-style: normal;
+  }
+  .faq-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .faq-header .sec-label {
+    justify-content: center;
+  }
+  .faq-header .sec-label::before {
+    content: "";
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--teal-l);
+  }
+  .faq-header .sec-lead {
+    margin: 0 auto;
+    text-align: center;
+  }
+  .faq-header a {
+    color: var(--teal-d);
+    text-decoration: underline;
+  }
+
+  .faq-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .faq-item {
+    background: white;
+    border-radius: 14px;
+    border: 1.5px solid rgba(107, 159, 155, 0.15);
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+  .faq-item.open {
+    border-color: var(--teal-l);
+    box-shadow: 0 6px 24px rgba(74, 126, 122, 0.08);
+  }
+
+  .faq-q {
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 22px 28px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    align-items: center;
+    font-family: inherit;
+    color: var(--dark);
+  }
+  .faq-q-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--teal-d);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .faq-q-text {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  .faq-q-icon {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .faq-q-icon-h,
+  .faq-q-icon-v {
+    position: absolute;
+    background: var(--teal-d);
+    border-radius: 1px;
+  }
+  .faq-q-icon-h {
+    width: 20px;
+    height: 2px;
+    top: 9px;
+    left: 0;
+  }
+  .faq-q-icon-v {
+    width: 2px;
+    height: 20px;
+    top: 0;
+    left: 9px;
+    transition: transform 0.3s;
+  }
+  .faq-item.open .faq-q-icon-v {
+    transform: rotate(90deg);
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .faq-a-inner {
+    padding: 0 28px 26px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .faq-a-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .faq-a p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.95;
+  }
+
+  @media (max-width: 900px) {
+    .faq-section {
+      padding: 70px 20px;
+    }
+    .faq-q {
+      padding: 18px 20px;
+      gap: 14px;
+    }
+    .faq-q-text {
+      font-size: 14px;
+    }
+    .faq-a-inner {
+      padding: 0 20px 22px;
+      gap: 14px;
+    }
+  }
+</style>

@@ -1,0 +1,631 @@
+---
+// Hero (First View) — Timee LP style with voice slider row and ticker
+// 写真は仮 (pravatar.cc) です。実写真ができたら photo を差し替えてください。
+const voices = [
+  {
+    photo: "https://i.pravatar.cc/400?img=47",
+    comment:
+      "ずっと卵を我慢させてきたのが、食べられるようになるかもしれない。本当に嬉しい。",
+    cite: "臨床研究に参加した患者のご家族",
+  },
+  {
+    photo: "https://i.pravatar.cc/400?img=32",
+    comment:
+      "息子が「ケーキ食べたい」と泣いた日のことは忘れません。この技術に大きな期待を寄せています。",
+    cite: "都内在住・5歳児の母",
+  },
+  {
+    photo: "https://i.pravatar.cc/400?img=12",
+    comment:
+      "アレルギー専門医として、患者さんの生活の質を変えうる画期的な研究だと感じています。",
+    cite: "相模原病院 アレルギー科 医師",
+  },
+  {
+    photo: "https://i.pravatar.cc/400?img=68",
+    comment:
+      "試作のクッキーは「普通の卵を使ったお菓子と区別がつかない」レベルでした。",
+    cite: "食品開発担当 / キユーピー株式会社",
+  },
+  {
+    photo: "https://i.pravatar.cc/400?img=8",
+    comment:
+      "大人になってもアレルギーが治らず諦めていた卵料理が、また食卓に並ぶ日を待っています。",
+    cite: "卵アレルギー当事者・30代",
+  },
+  {
+    photo: "https://i.pravatar.cc/400?img=22",
+    comment:
+      "学校給食で卵を除去するのではなく、安心して同じものを食べられる未来をつくりたい。",
+    cite: "栄養教諭・小学校",
+  },
+];
+
+// duplicate the whole list so the CSS marquee can loop seamlessly
+const loopedVoices = [...voices, ...voices];
+
+const tickers = [
+  { strong: "2027年度", text: "市場投入予定" },
+  { strong: null, text: "現在 臨床研究進行中" },
+  { strong: null, text: "各省庁への販売認可申請 進行中" },
+  { strong: "Platinum TALEN", text: "広島大学独自技術" },
+  { strong: null, text: "キユーピーと共同研究・安全性確認済み" },
+];
+---
+
+<section class="hero" id="top">
+  <div class="hero-shape-1"></div>
+  <div class="hero-shape-2"></div>
+  <div class="hero-shape-3"></div>
+
+  <div class="particle" style="width:10px;height:10px;left:8%;top:22%;--dur:7s;--del:0s;"></div>
+  <div class="particle" style="width:6px;height:6px;left:5%;top:65%;--dur:5s;--del:1.5s;"></div>
+  <div class="particle" style="width:14px;height:14px;left:18%;bottom:20%;--dur:8s;--del:3s;"></div>
+  <div class="particle" style="width:8px;height:8px;left:44%;top:12%;--dur:6s;--del:0.8s;background:rgba(193,26,26,0.25);"></div>
+
+  <div class="hero-top">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <span class="hero-tag-line"></span>
+        <span>プラチナバイオ × 広島大学</span>
+      </div>
+
+      <h1 class="hero-headline">
+        卵アレルギーでも<br />
+        <em>「食べられる卵」</em>を。
+      </h1>
+
+      <p class="hero-copy">
+        卵アレルギーの原因のひとつである<strong>「オボムコイド」</strong>をゲノム編集でピンポイントに除去。<br/>
+        これまで卵アレルギーで卵を食べられなかったすべての人へ。<br/>
+        <strong>2027年度の市場投入</strong>を目指しています。
+      </p>
+
+      <div class="hero-actions">
+        <a href="#notify" class="btn-primary">販売開始通知を受け取る →</a>
+        <a href="#reasons" class="btn-ghost-w">選ばれる3つの理由</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="egg-visual">
+        <span class="egg-inner-label">Ovomucoid</span>
+        <div class="egg-free-badge">✕ <span>FREE</span></div>
+        <p class="egg-note">オボムコイドが<br />含まれない初めての卵</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom: Voice slider (testimonials carousel) -->
+  <div class="hero-bottom">
+    <div class="voice-slider">
+      <div class="voice-track">
+        {
+          loopedVoices.map((v, i) => (
+            <article class="voice-card" aria-hidden={i >= voices.length}>
+              <div class="voice-photo">
+                <img src={v.photo} alt="" loading="lazy" />
+              </div>
+              <blockquote class="voice-comment">{v.comment}</blockquote>
+              <p class="voice-cite">— {v.cite}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticker (one-by-one) -->
+  <div class="launch-strip">
+    <div class="ticker-track" style={`--ticker-count: ${tickers.length}`}>
+      {
+        tickers.map((t, i) => (
+          <div class="ticker-item" style={`--i: ${i}`}>
+            <div class="ticker-dot" />
+            {t.strong && <strong>{t.strong}</strong>} {t.text}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    background: #e5a51c;
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-top {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: start;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    /* Reserve space for the absolutely-positioned launch-strip (ticker) below */
+    padding-bottom: 48px;
+  }
+
+  .hero-shape-1 {
+    position: absolute;
+    pointer-events: none;
+    width: 700px;
+    height: 800px;
+    right: -100px;
+    top: -60px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    animation: morph1 12s ease-in-out infinite;
+  }
+  .hero-shape-2 {
+    position: absolute;
+    pointer-events: none;
+    width: 400px;
+    height: 480px;
+    left: -80px;
+    bottom: 100px;
+    background: rgba(139, 90, 43, 0.3);
+    border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%;
+    animation: morph2 10s ease-in-out infinite;
+  }
+  .hero-shape-3 {
+    position: absolute;
+    pointer-events: none;
+    width: 200px;
+    height: 240px;
+    right: 38%;
+    top: 10%;
+    background: rgba(193, 26, 26, 0.08);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  }
+  @keyframes morph1 {
+    0%,
+    100% {
+      border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    }
+    50% {
+      border-radius: 45% 55% 42% 58% / 58% 42% 55% 45%;
+    }
+  }
+  @keyframes morph2 {
+    0%,
+    100% {
+      border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%;
+      transform: translate(0, 0);
+    }
+    50% {
+      border-radius: 55% 45% 60% 40% / 40% 60% 45% 55%;
+      transform: translate(8px, -12px);
+    }
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    animation: float var(--dur, 6s) ease-in-out infinite;
+    animation-delay: var(--del, 0s);
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .hero-left {
+    padding: 130px 60px 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero-tag-line {
+    width: 32px;
+    height: 1.5px;
+    background: #005e3c;
+  }
+  .hero-tag span {
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 500;
+    color: #005e3c;
+    text-transform: uppercase;
+  }
+
+  .hero-headline {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: white;
+    margin-bottom: 32px;
+    letter-spacing: -0.5px;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+  .hero-headline em {
+    font-style: normal;
+    color: #c11a1a;
+    background: linear-gradient(transparent 60%, rgba(193, 26, 26, 0.25) 60%);
+    padding: 0 4px;
+  }
+
+  .hero-copy {
+    font-size: 16px;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 300;
+    max-width: 480px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.7s ease 0.35s both;
+  }
+  .hero-copy strong {
+    color: white;
+    font-weight: 500;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s ease 0.5s both;
+  }
+  .btn-primary {
+    background: #c11a1a;
+    color: white;
+    padding: 17px 36px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.25s;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(193, 26, 26, 0.35);
+  }
+  .btn-primary:hover {
+    background: #a01515;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(193, 26, 26, 0.5);
+  }
+  .btn-ghost-w {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 16px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.25s;
+    letter-spacing: 0.3px;
+  }
+  .btn-ghost-w:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .hero-right {
+    padding: 130px 60px 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .egg-visual {
+    width: 360px;
+    height: 420px;
+    border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 255, 255, 0.06)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+    animation: fadeUp 0.7s ease 0.6s both;
+    position: relative;
+    overflow: hidden;
+  }
+  .egg-visual::before {
+    content: "";
+    position: absolute;
+    left: 15%;
+    top: 12%;
+    width: 40%;
+    height: 25%;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+  }
+  .egg-inner-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+  }
+  .egg-free-badge {
+    background: white;
+    color: var(--teal-d);
+    border-radius: 40px;
+    padding: 12px 28px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  }
+  .egg-free-badge span {
+    color: #c11a1a;
+  }
+  .egg-note {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+    max-width: 220px;
+    line-height: 1.7;
+  }
+
+  /* Voice slider (continuous marquee, never pauses) */
+  .voice-slider {
+    --gap: 20px;
+    --card-w: 280px;
+    --speed: 40s;
+    width: 100vw;
+    max-width: 100vw;
+    overflow: hidden;
+    box-sizing: border-box;
+    animation: fadeUp 0.7s ease 0.7s both;
+    /* Soft fade at the left/right edges */
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 60px,
+      black calc(100% - 60px),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 60px,
+      black calc(100% - 60px),
+      transparent 100%
+    );
+  }
+  .voice-track {
+    display: flex;
+    gap: var(--gap);
+    width: max-content;
+    will-change: transform;
+    animation: voice-scroll var(--speed) linear infinite;
+  }
+  .voice-card {
+    flex: 0 0 var(--card-w);
+    background: var(--cream2);
+    border-radius: 18px;
+    padding: 16px 18px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    min-height: 0;
+  }
+  .voice-photo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 10px;
+    border: 2px solid var(--cream2);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+    background: var(--teal-p);
+    flex-shrink: 0;
+  }
+  .voice-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .voice-comment {
+    flex: 1;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.6;
+    margin: 0 0 8px;
+    letter-spacing: 0.1px;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .voice-cite {
+    font-size: 10.5px;
+    color: var(--teal-d);
+    letter-spacing: 0.3px;
+    font-weight: 600;
+    text-align: right;
+    align-self: flex-end;
+    width: 100%;
+    margin: 0;
+  }
+  @keyframes voice-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      /* Track contains the list duplicated twice — shifting half the
+         total width loops back to the same visual position. */
+      transform: translateX(calc(-50% - var(--gap) / 2));
+    }
+  }
+
+  /* Ticker (one-by-one) */
+  .launch-strip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: var(--dark);
+    padding: 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 48px;
+  }
+  .ticker-track {
+    position: relative;
+    width: 100%;
+    height: 20px;
+  }
+  .ticker-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    /* 1 message lifecycle: 3s slide-in + 3s pause + 1s slide-out = 7s.
+       Next message starts the moment current begins its right-exit, so
+       messages are offset by 6s. Total loop = ticker-count * 6s. */
+    animation: ticker-slide calc(var(--ticker-count) * 6s) linear infinite;
+    animation-delay: calc(var(--i) * 6s);
+  }
+  @keyframes ticker-slide {
+    /* Visible window = 9s of (count * 6s). For count = 5 (30s total),
+       9/30 = 30% is the visible portion. Slide-in and slide-out both 3s. */
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    /* tiny fade-in while still at right edge */
+    0.5% {
+      opacity: 1;
+      transform: translateX(95%);
+    }
+    /* 0–3s: slide right → left edge */
+    10% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    /* 3–6s: pause at left edge */
+    20% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    /* 6–9s: slide left edge → off-screen left (same speed as slide-in) */
+    29.5% {
+      opacity: 1;
+      transform: translateX(-95%);
+    }
+    30% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    /* reset to right edge, hidden, ready for next iteration */
+    30.01% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+  .ticker-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e5a51c;
+    flex-shrink: 0;
+  }
+  .ticker-item strong {
+    color: #e5a51c;
+    font-weight: 600;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .hero-headline {
+      font-size: 44px;
+    }
+    .voice-slider {
+      --card-w: 260px;
+    }
+  }
+  @media (max-width: 900px) {
+    .hero-top {
+      grid-template-columns: 1fr;
+    }
+    .hero {
+      min-height: auto;
+    }
+    .hero-left {
+      padding: 110px 24px 24px;
+    }
+    .hero-right {
+      display: none;
+    }
+    .hero-headline {
+      font-size: 36px;
+    }
+    .voice-slider {
+      --card-w: 240px;
+      --gap: 16px;
+    }
+  }
+  @media (max-width: 540px) {
+    .voice-slider {
+      --card-w: 220px;
+      --gap: 12px;
+    }
+  }
+</style>

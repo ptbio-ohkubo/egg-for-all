@@ -1,0 +1,148 @@
+---
+// Global navigation that becomes solid on scroll
+import eggForAllLogo from '../assets/egg-for-all_logo.svg';
+import eggForAllLogoT from '../assets/egg-for-all_logo-t.svg';
+---
+
+<nav id="mainNav">
+  <a href="#top" class="nav-brand">
+    <img class="logo logo-transparent" src={eggForAllLogoT.src} width="115" height="48" alt="Egg for all" />
+    <img class="logo logo-solid" src={eggForAllLogo.src} width="115" height="48" alt="Egg for all" />
+  </a>
+  <div class="nav-right">
+    <a href="#for-you" class="nav-link">この卵について</a>
+    <a href="#reasons" class="nav-link">3つの理由</a>
+    <a href="#products" class="nav-link">商品展開</a>
+    <a href="#roadmap" class="nav-link">販売予定</a>
+    <a href="#faq" class="nav-link">よくある質問</a>
+    <a href="#notify" class="nav-cta">通知を受け取る →</a>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById("mainNav");
+  if (nav) {
+    const apply = () => nav.classList.toggle("solid", window.scrollY > 80);
+    apply();
+    window.addEventListener("scroll", apply, { passive: true });
+  }
+</script>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.4s;
+  }
+  nav.solid {
+    background: #ffffff;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 rgba(107, 159, 155, 0.12);
+  }
+  .nav-brand {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: inline-flex;
+    align-items: center;
+  }
+  :global(nav.solid) .nav-brand {
+    color: #333333;
+  }
+  .nav-brand:hover,
+  :global(nav.solid) .nav-brand:hover {
+    color: #a31616;
+  }
+  .nav-brand span {
+    font-style: italic;
+    color: var(--gold-l);
+  }
+  :global(nav.solid) .nav-brand span {
+    color: #333333;
+  }
+  .nav-brand:hover span,
+  :global(nav.solid) .nav-brand:hover span {
+    color: #a31616;
+  }
+  .nav-brand .logo {
+    transition: opacity 0.3s;
+  }
+  .nav-brand .logo-solid {
+    display: none;
+  }
+  :global(nav.solid) .nav-brand .logo-transparent {
+    display: none;
+  }
+  :global(nav.solid) .nav-brand .logo-solid {
+    display: inline-block;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-link {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  :global(nav.solid) .nav-link {
+    color: #333333;
+  }
+  .nav-link:hover {
+    color: #a31616;
+  }
+  :global(nav.solid) .nav-link:hover {
+    color: #a31616;
+  }
+  .nav-cta {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 9px 22px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  :global(nav.solid) .nav-cta {
+    background: #e5a51c;
+    border-color: #e5a51c;
+    color: white;
+  }
+  .nav-cta:hover {
+    background: rgba(255, 255, 255, 0.28);
+  }
+  :global(nav.solid) .nav-cta:hover {
+    background: #c98e15;
+    border-color: #c98e15;
+  }
+
+  @media (max-width: 1000px) {
+    nav {
+      padding: 0 20px;
+    }
+    .nav-link {
+      display: none;
+    }
+    .nav-right {
+      gap: 12px;
+    }
+  }
+</style>

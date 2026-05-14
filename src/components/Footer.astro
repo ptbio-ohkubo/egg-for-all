@@ -1,0 +1,95 @@
+---
+// Footer
+import logoWy from "../assets/egg-for-all_logo-wy.svg";
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <img src={logoWy.src} alt="Egg for All" />
+        </div>
+        <div class="footer-tagline">
+          Ovomucoid FREE Technology by プラチナバイオ × 広島大学
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#for-you">この卵について</a>
+        <a href="#reasons">3つの理由</a>
+        <a href="#products">商品展開</a>
+        <a href="#roadmap">販売予定</a>
+        <a href="#faq">よくある質問</a>
+        <a href="mailto:info@egg-for-all.jp">お問い合わせ</a>
+      </div>
+    </div>
+    <p class="footer-copy">© {year} Egg for All. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--dark);
+    padding: 56px 48px 44px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 28px;
+  }
+  .footer-brand {
+    display: inline-block;
+    line-height: 0;
+  }
+  .footer-brand img {
+    display: block;
+    height: 32px;
+    width: auto;
+  }
+  .footer-tagline {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  @media (max-width: 900px) {
+    footer {
+      padding: 40px 20px 28px;
+    }
+    .footer-top {
+      flex-direction: column;
+    }
+    .footer-links {
+      gap: 16px;
+    }
+  }
+</style>

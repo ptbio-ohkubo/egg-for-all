@@ -1,0 +1,248 @@
+---
+// Roadmap — vertical timeline with done / now / future states
+const items = [
+  {
+    state: "done",
+    date: "完了",
+    title: "ゲノム編集ニワトリの作出に成功",
+    body:
+      "広島大学がPlatinum TALEN技術を使い、オボムコイドを産生しないニワトリを世界で初めて作出。アレルギー低減卵の実現可能性を証明しました。",
+  },
+  {
+    state: "done",
+    date: "完了",
+    title: "キユーピーとの共同研究・安全性確認",
+    body:
+      "キユーピー株式会社との共同研究で安全性を徹底的に検証。プリン・クッキー・蒸しパンの試作品も完成し、美味しさも確認されました。",
+  },
+  {
+    state: "now",
+    date: "現在",
+    title: "臨床研究・販売認可申請・大量生産準備",
+    body:
+      "相模原病院（アレルギー専門）で患者さん向けの臨床研究を実施中。同時に農林水産省・消費者庁への販売認可申請、大量生産体制の構築も進めています。",
+  },
+  {
+    state: "future",
+    date: "2027年度",
+    title: "🎉 市場投入 — まずはプリン・クッキーから",
+    body:
+      "加熱加工食品からスタート。卵アレルギーのすべての方の食卓へ届けます。販売情報はメールでお知らせします。",
+  },
+];
+---
+
+<section class="roadmap-section" id="roadmap">
+  <div class="roadmap-inner">
+    <div class="roadmap-header">
+      <div class="sec-label">Roadmap</div>
+      <h2 class="sec-h">いつ、<em>販売されるの？</em></h2>
+    </div>
+
+    <div class="roadmap-list">
+      {
+        items.map((it) => (
+          <div class={`roadmap-item ${it.state}`}>
+            <div class="roadmap-dot" />
+            <div class="roadmap-meta">
+              <div class="roadmap-date">{it.date}</div>
+              {it.state === "now" && <div class="roadmap-now-chip">進行中</div>}
+            </div>
+            <div class="roadmap-body">
+              <h3>{it.title}</h3>
+              <p>{it.body}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const items = document.querySelectorAll(".roadmap-item");
+  if (items.length) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e, i) => {
+          if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add("visible"), i * 120);
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    items.forEach((el) => io.observe(el));
+  }
+</script>
+
+<style>
+  .roadmap-section {
+    background: var(--cream2);
+    padding: 100px 48px;
+    position: relative;
+  }
+  .roadmap-inner {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .roadmap-header {
+    text-align: center;
+    margin-bottom: 72px;
+  }
+  .roadmap-header .sec-label {
+    justify-content: center;
+  }
+  .roadmap-header .sec-label::before {
+    content: "";
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--teal-l);
+  }
+  .roadmap-header .sec-h {
+    font-family: "Noto Sans JP", sans-serif;
+    text-align: center;
+  }
+  .roadmap-header .sec-h em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .roadmap-list {
+    position: relative;
+  }
+  .roadmap-list::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      var(--teal-l),
+      var(--gold),
+      rgba(107, 159, 155, 0.2)
+    );
+  }
+
+  .roadmap-item {
+    display: flex;
+    gap: 44px;
+    padding-left: 52px;
+    margin-bottom: 52px;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .roadmap-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .roadmap-dot {
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--teal-l);
+    border: 3px solid var(--cream2);
+    box-shadow: 0 0 0 2px var(--teal-l);
+  }
+  .roadmap-item.done .roadmap-dot {
+    background: var(--teal-d);
+    box-shadow: 0 0 0 2px var(--teal-d);
+  }
+  .roadmap-item.now .roadmap-dot {
+    background: var(--gold);
+    border-color: var(--cream2);
+    box-shadow:
+      0 0 0 2px var(--gold),
+      0 0 20px rgba(201, 169, 58, 0.5);
+    animation: roadmap-glow 2s ease infinite;
+  }
+  @keyframes roadmap-glow {
+    0%,
+    100% {
+      box-shadow:
+        0 0 0 2px var(--gold),
+        0 0 20px rgba(201, 169, 58, 0.5);
+    }
+    50% {
+      box-shadow:
+        0 0 0 2px var(--gold),
+        0 0 34px rgba(201, 169, 58, 0.85);
+    }
+  }
+  .roadmap-item.future .roadmap-dot {
+    background: var(--cream2);
+    border-color: rgba(107, 159, 155, 0.4);
+    box-shadow: 0 0 0 2px rgba(107, 159, 155, 0.3);
+  }
+
+  .roadmap-meta {
+    min-width: 88px;
+    padding-top: 6px;
+  }
+  .roadmap-date {
+    font-size: 11px;
+    color: #7a8a87;
+    letter-spacing: 1px;
+  }
+  .roadmap-item.done .roadmap-date {
+    color: var(--teal-d);
+    font-weight: 600;
+  }
+  .roadmap-item.now .roadmap-date {
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .roadmap-now-chip {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--gold);
+    color: white;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .roadmap-body h3 {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 18px;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .roadmap-body p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.9;
+  }
+
+  @media (max-width: 900px) {
+    .roadmap-section {
+      padding: 70px 20px;
+    }
+    .roadmap-item {
+      gap: 20px;
+      padding-left: 44px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .roadmap-meta {
+      min-width: 0;
+    }
+    .roadmap-body {
+      flex-basis: 100%;
+    }
+  }
+</style>
