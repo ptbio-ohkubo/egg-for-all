@@ -4,7 +4,6 @@ const base = import.meta.env.BASE_URL;
 const partners = [
   { name: "広島大学", logo: `${base}logos/Hiroshima_univ.png` },
   { name: "プラチナバイオ", logo: `${base}logos/PtBio_yoko_color.png` },
-  { name: "キユーピー", logo: `${base}logos/kewpie-logo.webp` },
 ];
 ---
 
@@ -14,6 +13,8 @@ const partners = [
       産学連携・大学発スタートアップで<br />
       <em>22年以上の研究実績</em>を結実
     </h3>
+
+    <p class="partners-subtitle">ぐっとくる文章</p>
 
     <div class="partners-marquee">
       <div class="partners-track">
@@ -66,12 +67,22 @@ const partners = [
     color: #c0392b;
   }
 
+  .partners-subtitle {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.8;
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+
   .partners-marquee {
     padding: 80px 48px 0;
   }
   .partners-track {
     display: grid;
-    grid-template-columns: 1fr auto 1fr auto 1fr;
+    grid-template-columns: 1fr auto 1fr;
     gap: 0;
     align-items: center;
   }
@@ -91,8 +102,8 @@ const partners = [
     justify-content: center;
   }
   .partner-logo {
-    max-width: 220px;
-    max-height: 90px;
+    max-width: 320px;
+    max-height: 140px;
     width: auto;
     height: auto;
     object-fit: contain;
