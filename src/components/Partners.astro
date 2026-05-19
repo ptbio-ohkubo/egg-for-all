@@ -116,13 +116,28 @@ const partners = [
     .partners-title {
       font-size: 32px;
     }
-    .partners-track {
-      grid-template-columns: repeat(2, 1fr);
+    .partner-logo {
+      max-width: 220px;
+      max-height: 100px;
     }
   }
-  @media (max-width: 540px) {
+  @media (max-width: 720px) {
+    .partners-marquee {
+      padding: 40px 24px 0;
+    }
     .partners-track {
       grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+    .partner-cross {
+      padding: 8px 0;
+    }
+    .partner-logo {
+      max-width: 260px;
+      max-height: 110px;
+    }
+    .partner-card {
+      padding: 20px 16px;
     }
   }
 </style>
