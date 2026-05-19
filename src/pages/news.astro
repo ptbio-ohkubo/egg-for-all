@@ -1,0 +1,101 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const news = [
+  {
+    date: "2025.05.19",
+    content: "事前予約の受付を開始しました。",
+  },
+  {
+    date: "2025.04.01",
+    content: "広島大学・プラチナバイオとの共同研究成果を発表しました。",
+  },
+  {
+    date: "2025.02.14",
+    content: "キユーピー株式会社との共同開発契約を締結しました。",
+  },
+];
+---
+
+<Layout>
+  <Nav />
+  <main class="news-page">
+    <div class="news-page-inner">
+      <div class="sec-label">News</div>
+      <h1 class="news-page-title">お知らせ一覧</h1>
+
+      <ul class="news-list">
+        {
+          news.map((item) => (
+            <li class="news-item">
+              <time class="news-date">{item.date}</time>
+              <p class="news-content">{item.content}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .news-page {
+    background: var(--cream);
+    min-height: 100vh;
+    padding: 140px 48px 100px;
+  }
+  .news-page-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .news-page-title {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 8px 0 48px;
+  }
+
+  .news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .news-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 24px 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+  .news-item:first-child {
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+  .news-date {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    font-feature-settings: "tnum";
+  }
+  .news-content {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    .news-page {
+      padding: 120px 20px 70px;
+    }
+    .news-item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+// News section — latest announcements
+const base = import.meta.env.BASE_URL;
+
+const news = [
+  {
+    date: "2025.05.19",
+    content: "事前予約の受付を開始しました。",
+  },
+  {
+    date: "2025.04.01",
+    content: "広島大学・プラチナバイオとの共同研究成果を発表しました。",
+  },
+  {
+    date: "2025.02.14",
+    content: "キユーピー株式会社との共同開発契約を締結しました。",
+  },
+];
+---
+
+<section class="news-section" id="news">
+  <div class="news-inner">
+    <div class="news-header">
+      <div class="sec-label">News</div>
+      <h2 class="sec-h">お知らせ</h2>
+    </div>
+
+    <ul class="news-list">
+      {
+        news.map((item) => (
+          <li class="news-item">
+            <time class="news-date">{item.date}</time>
+            <p class="news-content">{item.content}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="news-footer">
+      <a href={`${base}news/`} class="news-more">お知らせ一覧を見る →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .news-section {
+    background: var(--cream);
+    padding: 100px 48px;
+  }
+  .news-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .news-header {
+    margin-bottom: 48px;
+  }
+  .news-section .sec-h {
+    font-family: "Noto Sans JP", sans-serif;
+    margin-top: 8px;
+  }
+
+  .news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px;
+  }
+  .news-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 24px 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+  .news-item:first-child {
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+  .news-date {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    font-feature-settings: "tnum";
+  }
+  .news-content {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .news-footer {
+    text-align: right;
+  }
+  .news-more {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--teal-d);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .news-more:hover {
+    color: var(--teal-bg);
+  }
+
+  @media (max-width: 600px) {
+    .news-section {
+      padding: 70px 20px;
+    }
+    .news-item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>
