@@ -1,47 +1,30 @@
 ---
-// Products section — Timee LP "募集できる仕事" style grid
+// Products section — image grid with text overlay
 const products = [
   {
-    icon: "🍮",
     name: "プリン・カスタード",
-    desc: "十分な水分と加熱で確実にアレルゲンフリーを実現。第一候補の商品カテゴリです。",
-    tag: "開発中",
-    tagType: "dev",
+    img: "https://images.unsplash.com/photo-1564589944854-08b59bed61f1?w=800&h=600&fit=crop&q=80&auto=format",
+    credit: "Kouji Tsuru / Unsplash",
   },
   {
-    icon: "🍪",
     name: "クッキー・焼き菓子",
-    desc: "試作済み。通常品と変わらない美味しさとキユーピーに評価されたレベルです。",
-    tag: "試作済み",
-    tagType: "trial",
+    img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=800&h=600&fit=crop&q=80&auto=format",
+    credit: "Jennifer Pallian / Unsplash",
   },
   {
-    icon: "🧁",
-    name: "蒸しパン・スポンジ",
-    desc: "試作済み。適切な水分量と温度の管理で美味しく仕上がっています。",
-    tag: "試作済み",
-    tagType: "trial",
+    name: "蒸しパン・ケーキ",
+    img: "https://images.unsplash.com/photo-1742054292312-7bd7d3984b40?w=800&h=600&fit=crop&q=80&auto=format",
+    credit: "Mathias Reding / Unsplash",
   },
   {
-    icon: "🥚",
-    name: "液卵・粉末卵（素材）",
-    desc: "食品メーカーへの原材料供給も計画中。アレルギー対応食品の幅が広がります。",
-    tag: "計画中",
-    tagType: "dev",
+    name: "ゆでたまご",
+    img: "https://images.unsplash.com/photo-1557965983-5b9fc9ab9014?w=800&h=600&fit=crop&q=80&auto=format",
+    credit: "Rosalind Chang / Unsplash",
   },
   {
-    icon: "🍜",
     name: "麺類・惣菜への展開",
-    desc: "幅広い加工食品への展開を将来的に予定。卵を使うあらゆる食品を目指します。",
-    tag: "将来展開",
-    tagType: "future",
-  },
-  {
-    icon: "🏪",
-    name: "スーパーでの市販",
-    desc: "まずは加工食品から。市販のお菓子としてスーパーに並ぶ日も近づいています。",
-    tag: "検討中",
-    tagType: "future",
+    img: "https://images.unsplash.com/photo-1509680859026-7d8cfc6894f4?w=800&h=600&fit=crop&q=80&auto=format",
+    credit: "j / Unsplash",
   },
 ];
 ---
@@ -55,7 +38,7 @@ const products = [
       </div>
       <div class="products-header-right">
         <p class="sec-lead">
-          最初は加熱加工食品からお届けします。アレルギー低減卵を適切に加熱することでアレルゲンフリーを実現。試作品はキユーピーからも高く評価されています。
+          最初は加熱加工食品からお届けします。アレルギー低減卵を適切に加熱することでアレルゲンフリーを実現。(ぐっとくる文章を追加)
         </p>
       </div>
     </div>
@@ -64,10 +47,11 @@ const products = [
       {
         products.map((p) => (
           <div class="prod-card">
-            <div class="prod-emoji">{p.icon}</div>
-            <h3>{p.name}</h3>
-            <p>{p.desc}</p>
-            <span class={`prod-tag tag-${p.tagType}`}>{p.tag}</span>
+            <img class="prod-img" src={p.img} alt={p.name} />
+            <div class="prod-overlay" />
+            <div class="prod-content">
+              <h3>{p.name}</h3>
+            </div>
           </div>
         ))
       }
@@ -114,63 +98,63 @@ const products = [
     margin: 0;
   }
 
+  /* GRID */
   .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 1px;
     margin-bottom: 40px;
-    /* margin-top は products-header の padding-bottom で確保 */
-  }
-  .prod-card {
-    background: white;
-    border-radius: 20px;
-    padding: 36px 28px;
-    border: 1.5px solid rgba(107, 159, 155, 0.1);
-    transition: all 0.3s;
-    position: relative;
-  }
-  .prod-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 48px rgba(107, 159, 155, 0.12);
-    border-color: rgba(107, 159, 155, 0.25);
-  }
-  .prod-emoji {
-    font-size: 38px;
-    margin-bottom: 20px;
-  }
-  .prod-card h3 {
-    font-size: 17px;
-    color: var(--dark);
-    margin-bottom: 10px;
-    font-weight: 700;
-  }
-  .prod-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.85;
-  }
-  .prod-tag {
-    display: inline-block;
-    margin-top: 16px;
-    padding: 5px 14px;
-    border-radius: 40px;
-    font-size: 11px;
-    letter-spacing: 0.8px;
-    font-weight: 700;
-  }
-  .tag-dev {
-    background: var(--teal-p);
-    color: var(--teal-d);
-  }
-  .tag-trial {
-    background: var(--gold-p);
-    color: var(--gold);
-  }
-  .tag-future {
-    background: #f0f0f0;
-    color: #999;
+    background: rgba(0, 0, 0, 0.12);
+    overflow: hidden;
   }
 
+  /* CARD */
+  .prod-card {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #c8c0b4; /* 画像未設定時のプレースホルダー色 */
+  }
+
+  /* 画像 */
+  .prod-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .prod-card:hover .prod-img {
+    transform: scale(1.05);
+  }
+
+  /* グラデーションオーバーレイ */
+  .prod-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  /* テキスト：左下寄せ */
+  .prod-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 24px 28px;
+  }
+  .prod-content h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.4;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  /* NOTE */
   .products-note {
     background: linear-gradient(135deg, #fdecea, #fbd5d0);
     border-radius: 20px;
@@ -206,12 +190,18 @@ const products = [
       padding-bottom: 40px;
     }
     .products-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
     .products-note {
       flex-direction: column;
       align-items: flex-start;
       padding: 24px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .products-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

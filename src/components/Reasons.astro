@@ -2,21 +2,21 @@
 // Reasons — BASE FOOD "About" style: header + three concept cards (image + label + sub)
 const concepts = [
   {
-    emoji: "🧬",
-    label: "ピンポイント",
-    sub: "原因タンパク「オボムコイド」だけを　DNAレベルで除去",
+    img: "https://images.unsplash.com/photo-1578496480240-32d3e0c04525?w=800&h=900&fit=crop&q=80&auto=format",
+    label: "ゲノム編集",
+    sub: "原因タンパク「オボムコイド」だけを除去",
     theme: "teal",
   },
   {
-    emoji: "🛡️",
-    label: "安全",
-    sub: "3段階の検証で　徹底的に安心を確認",
+    img: "https://images.unsplash.com/photo-1570802685082-2224bd954723?w=800&h=900&fit=crop&q=80&auto=format",
+    label: "安心・安全",
+    sub: "徹底的に安心を確認",
     theme: "gold",
   },
   {
-    emoji: "🍮",
+    img: "https://images.unsplash.com/photo-1648170979464-c2384e6f81fb?w=800&h=900&fit=crop&q=80&auto=format",
     label: "おいしい",
-    sub: "「市販レベル」と評価された　本物の美味しさ",
+    sub: "市販の卵と同じレベルの卵本来の味",
     theme: "cream",
   },
 ];
@@ -33,7 +33,7 @@ const concepts = [
         <p class="sec-lead">
           卵アレルギーで卵を諦めてきた方に、安心しておいしく食べてほしい——。<br />
           そんな想いから、原因タンパク「オボムコイド」だけをピンポイントで除去した、世界初のアレルゲン低減卵を開発しました。<br />
-          広島大学独自のPlatinum TALEN技術を用いたゲノム編集で、外来遺伝子の挿入は一切なし。全ゲノム解析・キユーピーとの共同検証・相模原病院での臨床研究という3段階で、安全性とおいしさを徹底的に確認しています。
+          広島大学独自のPlatinum TALEN技術を用いたゲノム編集で、外来遺伝子の挿入は一切なし。安全性とおいしさを徹底的に確認しています。
         </p>
       </div>
     </div>
@@ -44,7 +44,8 @@ const concepts = [
       concepts.map((c) => (
         <article class={`concept-card theme-${c.theme}`}>
           <div class="concept-image">
-            <span class="concept-emoji" aria-hidden="true">{c.emoji}</span>
+            <img class="concept-img" src={c.img} alt={c.label} />
+            <div class="concept-overlay" />
             <div class="concept-text">
               <h3 class="concept-label">{c.label}</h3>
               <p class="concept-sub">{c.sub}</p>
@@ -109,28 +110,33 @@ const concepts = [
     min-height: 50vh;
     position: relative;
     overflow: hidden;
-    background-size: cover;
-    background-position: center;
+    background: #1a1a1a;
   }
-  .concept-emoji {
+
+  /* 写真 */
+  .concept-img {
     position: absolute;
-    top: 38%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 120px;
-    line-height: 1;
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
-    opacity: 0.9;
-    pointer-events: none;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
   }
-  .theme-teal .concept-image {
-    background-image: linear-gradient(135deg, var(--teal-p) 0%, #cfe7e3 100%);
+  .concept-card:hover .concept-img {
+    transform: scale(1.06);
   }
-  .theme-gold .concept-image {
-    background-image: linear-gradient(135deg, var(--gold-p) 0%, #f3dc8f 100%);
-  }
-  .theme-cream .concept-image {
-    background-image: linear-gradient(135deg, #fff5dc 0%, #f6dca3 100%);
+
+  /* グラデーションオーバーレイ */
+  .concept-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(10, 18, 16, 0.78) 0%,
+      rgba(10, 18, 16, 0.25) 55%,
+      transparent 100%
+    );
+    z-index: 1;
   }
 
   /* Overlay text — placed inside the image, 50px from the bottom */
@@ -147,17 +153,19 @@ const concepts = [
     font-family: "Noto Sans JP", sans-serif;
     font-size: 22px;
     font-weight: 700;
-    color: var(--dark);
+    color: #ffffff;
     letter-spacing: 1px;
     margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
   .concept-sub {
     font-size: 13px;
-    color: #333333;
+    color: rgba(255, 255, 255, 0.88);
     line-height: 1.85;
     font-weight: 400;
     max-width: 280px;
     margin: 0 auto;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   }
 
   /* ── Responsive ───────────────────────────────────── */
@@ -171,8 +179,8 @@ const concepts = [
       grid-template-columns: 1fr;
       gap: 32px;
     }
-    .concept-emoji {
-      font-size: 80px;
+    .concept-image {
+      min-height: 40vh;
     }
   }
 </style>

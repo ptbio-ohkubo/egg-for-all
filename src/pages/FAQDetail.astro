@@ -1,0 +1,667 @@
+---
+import Layout from "../layouts/Layout.astro";
+import eggForAllLogo from "../assets/egg-for-all_logo.svg";
+import eggForAllLogoT from "../assets/egg-for-all_logo-t.svg";
+import logoWy from "../assets/egg-for-all_logo-wy.svg";
+const year = new Date().getFullYear();
+---
+
+<Layout
+  title="よくある質問 — Egg for All"
+  description="卵アレルギー・アレルギー低減卵・ゲノム編集技術について、皆さまからよくいただくご質問にお答えします。"
+>
+  <!-- NAV -->
+  <nav class="faq-nav solid">
+    <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-brand">
+      <img class="logo logo-transparent" src={eggForAllLogoT.src} width="115" height="48" alt="Egg for All" />
+      <img class="logo logo-solid" src={eggForAllLogo.src} width="115" height="48" alt="Egg for All" />
+    </a>
+    <div class="faq-nav-right">
+      <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-link">この卵について</a>
+      <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-link">よくある質問</a>
+      <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-cta">通知を受け取る →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="faq-hero">
+    <div class="faq-hero-inner">
+      <div class="faq-hero-pill">FREQUENTLY ASKED QUESTIONS</div>
+      <h1>よくある<em>質問</em></h1>
+      <p>卵アレルギー・アレルギー低減卵・ゲノム編集技術について、皆さまからよくいただくご質問にお答えします。</p>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="faq-wrap">
+    <!-- SEARCH -->
+    <div class="search-box">
+      <input type="text" id="sq" placeholder="質問・キーワードで探す…" />
+      <span class="s-count" id="sc"></span>
+    </div>
+
+    <!-- CATEGORY BUTTONS -->
+    <div class="cat-row">
+      <button class="cat-btn on" data-cat="all">すべて <span class="cat-n" id="cn-all"></span></button>
+      <button class="cat-btn" data-cat="product">製品・商品化 <span class="cat-n" id="cn-product"></span></button>
+      <button class="cat-btn" data-cat="allergy">アレルギー <span class="cat-n" id="cn-allergy"></span></button>
+      <button class="cat-btn" data-cat="tech">技術・科学 <span class="cat-n" id="cn-tech"></span></button>
+      <button class="cat-btn gold-cat" data-cat="safety">安全性・規制 <span class="cat-n" id="cn-safety"></span></button>
+    </div>
+
+    <div id="flist"></div>
+
+    <!-- BACK -->
+    <div class="back-cta">
+      <p>他にご不明な点があればお気軽にお問い合わせください。</p>
+      <a href="mailto:info@egg-for-all.jp" class="btn-teal">info@egg-for-all.jp</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="faq-footer">
+    <div class="faq-footer-inner">
+      <div class="faq-footer-top">
+        <div>
+          <img src={logoWy.src} alt="Egg for All" class="faq-footer-logo" />
+          <div class="faq-footer-tagline">Ovomucoid FREE Technology by プラチナバイオ × 広島大学</div>
+        </div>
+        <div class="faq-footer-links">
+          <a href={`${import.meta.env.BASE_URL}`}>トップページ</a>
+          <a href="mailto:info@egg-for-all.jp">お問い合わせ</a>
+        </div>
+      </div>
+      <p class="faq-footer-copy">© {year} Egg for All. All rights reserved.</p>
+    </div>
+  </footer>
+</Layout>
+
+<script>
+const cats: Record<string, { label: string }> = {
+  product: { label: "製品・商品化" },
+  allergy: { label: "アレルギー" },
+  tech:    { label: "技術・科学" },
+  safety:  { label: "安全性・規制" },
+};
+
+interface FaqItem {
+  id: number;
+  cat: string;
+  q: string;
+  a: string;
+}
+
+const data: FaqItem[] = [
+  {id:1,cat:"product",q:"アレルギー低減卵はいつ頃に販売される予定ですか？",a:"2027年度を目途に市場投入を図っています。現在、食物アレルギーの専門病院（相模原病院）の協力を得て、アレルギー患者を対象にした臨床研究を実施中です。卵アレルギーで苦しんできたお子さんやそのご家族から、喜びの声をいただいています。"},
+  {id:2,cat:"product",q:"どんな形の商品になりますか？生卵でも購入できますか？",a:"最初はプリン・クッキーなどの加熱加工食品からスタートする予定です。アレルゲンフリーにするには適切な加熱が必要なため、消費者が自分で調理する生卵の市販化はしばらく予定していません。まずは安全性を確保した加工食品としてお届けします。"},
+  {id:3,cat:"product",q:"味や栄養は普通の卵と変わりますか？",a:"基本的な栄養素はほとんど変わりません。オボムコイドが少なくなった分、他の卵白タンパク質がわずかに増えている程度です。加熱した際に少しだけ固くなる性質がありますが、プリンや蒸しパンの試作では違いは判りませんでした。キユーピーにも「すぐ市販できる美味しさ」と評価されています。"},
+  {id:4,cat:"product",q:"スーパーで買えるようになりますか？",a:"まず加熱加工食品（プリン・クッキーなど）としてスーパーに並ぶ可能性があります。アレルギー対応食品として市販されているお菓子のラインへの展開も検討されています。"},
+  {id:5,cat:"product",q:"マヨネーズやマドレーヌには使えないのですか？",a:"マヨネーズの製造工程には加熱工程がほとんどないため、アレルゲンフリーを確保できないので現在は予定していません。マドレーヌは加熱時の水分と温度の条件が課題ですが、加熱条件の工夫でアレルゲン性をなくすことは一定程度可能なようです。"},
+  {id:6,cat:"product",q:"アレルギー低減卵を使った商品はどこで買えますか？",a:"2027年度の市場投入に向けて準備中です。販売チャネルはスーパーへの市販を目標にしています。販売開始時にはメール通知でご案内します。トップページからメールアドレスをご登録ください。"},
+  {id:7,cat:"allergy",q:"日本での卵アレルギー患者はどれくらいいますか？",a:"調査ごとに差がありますが、日本の乳幼児全体の5〜10%（約30万人）が卵アレルギーとされています。そのご家族も卵を控える傾向にあるため、実際の需要はさらに数倍になります。卵アレルギーは日本で食物アレルギーの原因食物として最も多く、世界的にも2番目に多い原因です。"},
+  {id:8,cat:"allergy",q:"大人になるとアレルギーが治ることがあるのはなぜですか？",a:"乳幼児期の未熟な消化器官や免疫システムが成熟していくにつれて、アレルゲンに対する耐性ができるためといわれています。卵アレルギーは小学校入学頃には約7割の方が改善するといわれていますが、その期間の制限はお子さんにとっても家族にとっても大変な苦労を伴います。"},
+  {id:9,cat:"allergy",q:"経口免疫療法との組み合わせはできますか？",a:"経口免疫療法は医師の管理のもとで少しずつアレルゲンを摂取して体に慣れさせる治療法です。オボムコイド以外の卵アレルゲンに対する経口免疫療法においても、アレルギー低減卵が活用できるのではないかと考えています。"},
+  {id:10,cat:"allergy",q:"他の食品（ナッツ・牛乳・小麦）のアレルギーにも対応できますか？",a:"特定のタンパク質がアレルゲンである場合、ゲノム編集でなくすことができる可能性はあります。ただし、その生物の生存に影響がない、加熱で他のアレルゲン性がなくなる、加工特性が変わらないといった複数の条件が揃う必要があります。現在は卵アレルギーの解決に集中して取り組んでいます。"},
+  {id:11,cat:"tech",q:"CRISPR/Cas9を使っているのですか？",a:"CRISPR/Cas9は使っていません。広島大学（P+Bio）が独自開発した「Platinum TALEN」という技術を使っています。オボムコイド遺伝子のDNA配列を約10文字除去して、オボムコイドタンパク質が産生されないようにします。"},
+  {id:12,cat:"tech",q:"ゲノム編集と遺伝子組み換えはどう違いますか？",a:"遺伝子組み換えは外来の遺伝子を挿入する技術ですが、今回のゲノム編集はオボムコイド遺伝子の一部（約10文字）を除去するだけで外来遺伝子の挿入は一切行いません。自然界で起こりうる突然変異と同等の変化です。農林水産省・消費者庁も従来の育種と同様の扱いが可能としています。"},
+  {id:13,cat:"tech",q:"なぜ茶色・黒色のニワトリを使っているのですか？",a:"ゲノム編集されたひよこを羽の色で簡単に見分けるためです。横斑プリマスロック種（黒白縞）とロードアイランドレッド種（茶色）を使用しています。技術的には白いニワトリでもアレルギー低減卵を産む鶏を作製することは可能です。"},
+  {id:14,cat:"tech",q:"オボムコイドは卵や鶏にとって何の役割があるのですか？",a:"卵の中で育つひよこを守る防御タンパク質の一つで、消化酵素（トリプシン）の働きを抑えて外部の細菌などから胚を保護します。ただし、清潔な環境で飼育される家畜化された鶏においては、ほとんど不要になっている可能性があると考えられています。"},
+  {id:15,cat:"tech",q:"鶏肉を食べられる人でも卵アレルギーになるのはなぜですか？",a:"同じ鶏でも体の部位によって作られるタンパク質は全く違います。卵白にはオボムコイドが約11%含まれていますが、鶏の筋肉組織（鶏肉）ではオボムコイドはほとんど作られません。同じ遺伝子を持っていても、場所が違えば作るものも違うのです。"},
+  {id:16,cat:"safety",q:"食品安全認定や販売認可の取得状況は？",a:"農林水産省・消費者庁・米国FDAなど各省庁への申請を現在進めているところです。ゲノム編集技術により作出した卵の生産・販売の認可を取得するための申請です。食品安全認定は販売開始時の製造拠点が取得することになります。"},
+  {id:17,cat:"safety",q:"副作用や予期しない副産物はないのですか？",a:"全ゲノムシーケンスにより、標的のオボムコイド以外のタンパク質コード領域に変化がないことを確認済みです。さらに副産物に対する抗体を作製し、アレルギー低減卵中から副産物が検出されないことも確認しています。キユーピーとの共同研究で卵白タンパク質の詳細な解析も行い、通常卵と比べて大きな変化はありません。"},
+  {id:18,cat:"safety",q:"ゲノム編集した鶏同士を交配し続けても大丈夫ですか？",a:"繰り返し交配による近交弱勢（病気耐性の低下など）を防ぐため、横斑プリマスロック種とロードアイランドレッド種の2品種でゲノム編集ニワトリを作出し、この2品種を掛け合わせる方式をとっています。この方法で安定した品質の商業生産が可能です。"},
+  {id:19,cat:"safety",q:"商品にゲノム編集食品と表示されますか？",a:"販売時にはゲノム編集食品であることを明確に表示し、積極的にアピールする予定です。アレルギー低減卵のゲノム編集は消費者のメリットに直結します。卵アレルギーのご家族に「この商品なら安心」と選んでいただける存在を目指しています。"},
+];
+
+let curCat = "all";
+let srch = "";
+
+function hl(s: string): string {
+  if (!srch) return s;
+  return s.replace(
+    new RegExp(`(${srch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi"),
+    "<mark>$1</mark>"
+  );
+}
+
+function item(f: FaqItem): string {
+  const nc = f.cat === "safety" ? "gn" : "";
+  return `<div class="faq-item" data-id="${f.id}">
+    <button class="faq-q" type="button">
+      <span class="q-num ${nc}">Q${f.id}</span>
+      <span class="q-text">${hl(f.q)}</span>
+      <span class="chev">▾</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">${hl(f.a)}</div></div>
+  </div>`;
+}
+
+function render(items: FaqItem[]) {
+  const el = document.getElementById("flist")!;
+  const sc = document.getElementById("sc")!;
+
+  if (!items.length) {
+    el.innerHTML = `<div class="empty-state"><p>該当する質問が見つかりませんでした。<br>別のキーワードをお試しください。</p></div>`;
+    sc.textContent = "";
+    return;
+  }
+  sc.textContent = srch ? items.length + "件" : "";
+
+  if (srch || curCat !== "all") {
+    const grpLabel = srch ? `「${srch}」の検索結果` : cats[curCat]?.label;
+    el.innerHTML = `<div class="faq-group"><div class="group-h">${grpLabel}</div>${items.map(item).join("")}</div>`;
+  } else {
+    el.innerHTML = ["product","allergy","tech","safety"].map(c => {
+      const ci = items.filter(f => f.cat === c);
+      if (!ci.length) return "";
+      return `<div class="faq-group"><div class="group-h">${cats[c].label}</div>${ci.map(item).join("")}</div>`;
+    }).join("");
+  }
+
+  document.querySelectorAll<HTMLElement>(".faq-item").forEach(itemEl => {
+    const btn = itemEl.querySelector<HTMLButtonElement>(".faq-q");
+    const ans = itemEl.querySelector<HTMLElement>(".faq-a");
+    btn?.addEventListener("click", () => {
+      const open = itemEl.classList.contains("open");
+      document.querySelectorAll<HTMLElement>(".faq-item.open").forEach(e => {
+        e.classList.remove("open");
+        const a = e.querySelector<HTMLElement>(".faq-a");
+        if (a) a.style.maxHeight = "0";
+      });
+      if (!open && ans) {
+        itemEl.classList.add("open");
+        ans.style.maxHeight = ans.scrollHeight + "px";
+      }
+    });
+  });
+}
+
+function filter() {
+  let items = data;
+  if (curCat !== "all") items = items.filter(f => f.cat === curCat);
+  if (srch) {
+    const t = srch.toLowerCase();
+    items = items.filter(f => f.q.toLowerCase().includes(t) || f.a.toLowerCase().includes(t));
+  }
+  render(items);
+}
+
+// Init counts
+const cnAll = document.getElementById("cn-all");
+if (cnAll) cnAll.textContent = String(data.length);
+(["product","allergy","tech","safety"] as const).forEach(c => {
+  const el = document.getElementById("cn-" + c);
+  if (el) el.textContent = String(data.filter(f => f.cat === c).length);
+});
+
+// Search
+document.getElementById("sq")?.addEventListener("input", (e) => {
+  srch = (e.target as HTMLInputElement).value.trim();
+  filter();
+});
+
+// Category buttons
+document.querySelectorAll<HTMLButtonElement>(".cat-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    curCat = btn.dataset.cat ?? "all";
+    document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("on"));
+    btn.classList.add("on");
+    filter();
+  });
+});
+
+render(data);
+</script>
+
+<style>
+/* NAV — solid state (same as index after scroll) */
+:global(.faq-nav) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  padding: 0 48px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.4s;
+}
+:global(.faq-nav.solid) {
+  background: #ffffff;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(107, 159, 155, 0.12);
+}
+:global(.faq-nav-brand) {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+:global(.faq-nav-brand .logo) {
+  transition: opacity 0.3s;
+}
+:global(.faq-nav-brand .logo-transparent) {
+  display: none;
+}
+:global(.faq-nav-brand .logo-solid) {
+  display: inline-block;
+  height: 48px;
+  width: 115px;
+}
+:global(.faq-nav-right) {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+:global(.faq-nav-link) {
+  font-size: 13px;
+  color: #333333;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+}
+:global(.faq-nav-link:hover) {
+  color: #a31616;
+}
+:global(.faq-nav-cta) {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 9px 22px;
+  border-radius: 40px;
+  background: #e5a51c;
+  border: 1px solid #e5a51c;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+:global(.faq-nav-cta:hover) {
+  background: #c98e15;
+  border-color: #c98e15;
+}
+
+/* HERO */
+:global(.faq-hero) {
+  background: linear-gradient(160deg, #5c8d8a 0%, #4a7e7a 100%);
+  padding: 140px 48px 88px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+:global(.faq-hero::before) {
+  content: "FAQ";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 280px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.04);
+  letter-spacing: 24px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+:global(.faq-hero-inner) {
+  position: relative;
+  z-index: 1;
+}
+:global(.faq-hero-pill) {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  padding: 7px 22px;
+  border-radius: 40px;
+  margin-bottom: 22px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+:global(.faq-hero h1) {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+:global(.faq-hero h1 em) {
+  font-style: normal;
+  color: var(--gold-l);
+}
+:global(.faq-hero p) {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.85;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* MAIN WRAP */
+:global(.faq-wrap) {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 72px 24px 100px;
+}
+
+/* SEARCH */
+:global(.search-box) {
+  position: relative;
+  margin-bottom: 36px;
+}
+:global(.search-box input) {
+  width: 100%;
+  padding: 16px 48px 16px 52px;
+  border-radius: 40px;
+  border: 1.5px solid rgba(107, 159, 155, 0.2);
+  background: white;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  transition: border 0.2s;
+  box-shadow: 0 2px 12px rgba(107, 159, 155, 0.06);
+}
+:global(.search-box input:focus) {
+  border-color: var(--teal-d);
+}
+:global(.search-box input::placeholder) {
+  color: #7a9290;
+}
+:global(.s-icon) {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0.4;
+}
+:global(.s-count) {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #7a9290;
+}
+
+/* CATEGORY BUTTONS */
+:global(.cat-row) {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 44px;
+}
+:global(.cat-btn) {
+  padding: 9px 20px;
+  border-radius: 40px;
+  border: 1.5px solid rgba(107, 159, 155, 0.2);
+  background: white;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 4px rgba(107, 159, 155, 0.06);
+}
+:global(.cat-n) {
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 20px;
+  background: var(--teal-p);
+  color: var(--teal-d);
+  font-weight: 600;
+}
+:global(.cat-btn:hover),
+:global(.cat-btn.on) {
+  background: var(--teal-d);
+  color: white;
+  border-color: var(--teal-d);
+}
+:global(.cat-btn.on .cat-n),
+:global(.cat-btn:hover .cat-n) {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+:global(.cat-btn.gold-cat:hover),
+:global(.cat-btn.gold-cat.on) {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+:global(.faq-group) {
+  margin-top: 52px;
+  margin-bottom: 52px;
+}
+:global(.group-h) {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--teal-l);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* FAQ ITEMS */
+:global(.faq-item) {
+  background: white;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1.5px solid rgba(107, 159, 155, 0.1);
+  transition: all 0.25s;
+  box-shadow: 0 2px 8px rgba(107, 159, 155, 0.04);
+}
+:global(.faq-item:hover) {
+  border-color: rgba(107, 159, 155, 0.25);
+  box-shadow: 0 4px 20px rgba(107, 159, 155, 0.1);
+}
+:global(.faq-item.open) {
+  border-color: var(--teal-l);
+  box-shadow: 0 6px 24px rgba(74, 126, 122, 0.1);
+}
+:global(.faq-q) {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 22px 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--dark);
+  font-weight: 500;
+  line-height: 1.55;
+}
+:global(.q-num) {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--teal-p);
+  color: var(--teal-d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+:global(.q-num.gn) {
+  background: var(--teal-p);
+  color: var(--teal-d);
+}
+:global(.q-text) {
+  flex: 1;
+}
+:global(.chev) {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--teal-p);
+  color: var(--teal-d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+:global(.faq-item.open .chev) {
+  transform: rotate(180deg);
+  background: var(--teal-d);
+  color: white;
+}
+:global(.faq-a) {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+:global(.faq-a-inner) {
+  padding: 0 26px 24px 72px;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.95;
+}
+:global(.empty-state) {
+  text-align: center;
+  padding: 80px 20px;
+  color: #7a9290;
+}
+:global(.empty-state .ei) {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+/* BACK CTA */
+:global(.back-cta) {
+  text-align: center;
+  margin-top: 56px;
+  padding-top: 48px;
+  border-top: 1px solid rgba(107, 159, 155, 0.12);
+}
+:global(.back-cta p) {
+  font-size: 15px;
+  color: #7a9290;
+  margin-bottom: 20px;
+}
+:global(.btn-teal) {
+  background: var(--teal-d);
+  color: white;
+  padding: 14px 36px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.25s;
+  display: inline-block;
+}
+:global(.btn-teal:hover) {
+  background: #4a7e7a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(74, 126, 122, 0.3);
+}
+
+/* HIGHLIGHT */
+:global(mark) {
+  background: rgba(229, 165, 28, 0.25);
+  color: var(--dark);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+/* FOOTER */
+:global(.faq-footer) {
+  background: var(--dark);
+  padding: 56px 48px 44px;
+}
+:global(.faq-footer-inner) {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+:global(.faq-footer-top) {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 28px;
+}
+:global(.faq-footer-logo) {
+  display: block;
+  height: 32px;
+  width: auto;
+}
+:global(.faq-footer-tagline) {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 6px;
+  letter-spacing: 1px;
+}
+:global(.faq-footer-links) {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+:global(.faq-footer-links a) {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+:global(.faq-footer-links a:hover) {
+  color: rgba(255, 255, 255, 0.85);
+}
+:global(.faq-footer-copy) {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  :global(.faq-nav-link) {
+    display: none;
+  }
+  :global(.faq-nav-right) {
+    gap: 12px;
+  }
+}
+@media (max-width: 768px) {
+  :global(.faq-nav) {
+    padding: 0 20px;
+  }
+  :global(.faq-hero) {
+    padding: 110px 20px 64px;
+  }
+  :global(.faq-hero h1) {
+    font-size: 40px;
+  }
+  :global(.faq-wrap) {
+    padding: 56px 16px 80px;
+  }
+  :global(.faq-a-inner) {
+    padding-left: 20px;
+  }
+  :global(.faq-footer) {
+    padding: 40px 20px 28px;
+  }
+  :global(.faq-footer-top) {
+    flex-direction: column;
+  }
+}
+</style>
