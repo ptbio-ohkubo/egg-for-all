@@ -1,13 +1,13 @@
 ---
 // Global navigation that becomes solid on scroll
-import eggForAllLogo from '../assets/egg-for-all_logo.svg';
-import eggForAllLogoT from '../assets/egg-for-all_logo-t.svg';
+const base = import.meta.env.BASE_URL;
+const navLogo = `${base}logos/egg-for-all-9.svg`;
 ---
 
 <nav id="mainNav">
   <a href="#top" class="nav-brand">
-    <img class="logo logo-transparent" src={eggForAllLogoT.src} width="115" height="48" alt="Egg for all" />
-    <img class="logo logo-solid" src={eggForAllLogo.src} width="115" height="48" alt="Egg for all" />
+    <img class="logo logo-transparent" src={navLogo} width="150" height="62" alt="Egg for all" />
+    <img class="logo logo-solid" src={navLogo} width="150" height="62" alt="Egg for all" />
   </a>
   <div class="nav-right">
     <a href="#for-you" class="nav-link">この卵について</a>

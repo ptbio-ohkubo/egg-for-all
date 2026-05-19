@@ -1,6 +1,7 @@
 ---
 // Footer
-import logoWy from "../assets/egg-for-all_logo-wy.svg";
+const base = import.meta.env.BASE_URL;
+const footerLogo = `${base}logos/egg-for-all-9.svg`;
 const year = new Date().getFullYear();
 ---
 
@@ -9,7 +10,7 @@ const year = new Date().getFullYear();
     <div class="footer-top">
       <div>
         <div class="footer-brand">
-          <img src={logoWy.src} alt="Egg for All" />
+          <img src={footerLogo} alt="Egg for All" />
         </div>
         <div class="footer-tagline">
           Ovomucoid FREE Technology by プラチナバイオ × 広島大学
@@ -53,7 +54,7 @@ const year = new Date().getFullYear();
   }
   .footer-brand img {
     display: block;
-    height: 32px;
+    height: 56px;
     width: auto;
   }
   .footer-tagline {

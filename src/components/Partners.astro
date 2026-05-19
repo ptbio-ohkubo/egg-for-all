@@ -18,10 +18,15 @@ const partners = [
     <div class="partners-marquee">
       <div class="partners-track">
         {
-          partners.map((p) => (
-            <div class="partner-card">
-              <img class="partner-logo" src={p.logo} alt={p.name} />
-            </div>
+          partners.map((p, i) => (
+            <>
+              <div class="partner-card">
+                <img class="partner-logo" src={p.logo} alt={p.name} />
+              </div>
+              {i < partners.length - 1 && (
+                <div class="partner-cross">×</div>
+              )}
+            </>
           ))
         }
       </div>
@@ -66,8 +71,15 @@ const partners = [
   }
   .partners-track {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 0;
+    align-items: center;
+  }
+  .partner-cross {
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.25);
+    padding: 0 16px;
+    user-select: none;
   }
   .partner-card {
     background: white;

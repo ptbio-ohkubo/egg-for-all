@@ -16,9 +16,9 @@
       </div>
     </div>
     <div class="for-grid">
-      <div class="for-card card-family">
+      <div class="for-card card-family" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=900&h=700&fit=crop&q=80&auto=format');">
+        <div class="for-card-overlay"></div>
         <div class="for-card-corner"></div>
-        <div class="for-card-icon">👨‍👩‍👧</div>
         <h3>卵アレルギーのお子さんを<br /><em>持つご家族へ</em></h3>
         <p>
           「ケーキも食べられない」「遠足のお弁当に卵が使えない」—— そんな毎日から解放される日が来ます。
@@ -29,9 +29,9 @@
           <li>子どもの笑顔のために、一緒に卵料理を楽しめる</li>
         </ul>
       </div>
-      <div class="for-card card-allergy">
+      <div class="for-card card-allergy" style="background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=900&h=700&fit=crop&q=80&auto=format');">
+        <div class="for-card-overlay"></div>
         <div class="for-card-corner"></div>
-        <div class="for-card-icon">🌿</div>
         <h3>卵アレルギーを抱える<br /><em>すべての方へ</em></h3>
         <p>
           大人になっても卵アレルギーが続く方、卵を諦めて生活している方にも。普通の卵と同じように使える製品をお届けします。
@@ -86,43 +86,19 @@
     gap: 32px;
   }
   .for-card {
-    border-radius: 24px;
+    border-radius: 0;
     padding: 48px 44px;
     position: relative;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    border: none;
   }
-  .for-card.card-family {
-    background: linear-gradient(145deg, var(--teal-p), #daeee9);
-    border: 1.5px solid rgba(107, 159, 155, 0.2);
-  }
-  .for-card.card-allergy {
-    background: linear-gradient(145deg, var(--warm), #ede5d0);
-    border: 1.5px solid rgba(201, 169, 58, 0.2);
-  }
-  .for-card-icon {
-    font-size: 42px;
-    margin-bottom: 20px;
-  }
-  .for-card h3 {
-    font-family: "Zen Kaku Gothic New", sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 14px;
-    line-height: 1.4;
-  }
-  .for-card h3 :global(em) {
-    font-style: normal;
-    color: var(--teal-d);
-    background: linear-gradient(transparent 60%, rgba(255, 255, 255, 0.5) 60%);
-  }
-  .card-allergy h3 :global(em) {
-    color: var(--gold);
-  }
-  .for-card p {
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.95;
+  .for-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+    z-index: 0;
   }
   .for-card-corner {
     position: absolute;
@@ -131,10 +107,32 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: rgba(107, 159, 155, 0.08);
+    background: rgba(255, 255, 255, 0.06);
+    z-index: 1;
   }
-  .card-allergy .for-card-corner {
-    background: rgba(201, 169, 58, 0.08);
+  .for-card > *:not(.for-card-overlay):not(.for-card-corner) {
+    position: relative;
+    z-index: 1;
+  }
+  .for-card h3 {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  .for-card h3 :global(em) {
+    font-style: normal;
+    color: #7ee0d4;
+  }
+  .card-allergy h3 :global(em) {
+    color: #f5d77a;
+  }
+  .for-card p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.95;
   }
 
   .check-list {
@@ -149,18 +147,18 @@
     align-items: flex-start;
     gap: 10px;
     font-size: 14px;
-    color: var(--text);
+    color: rgba(255, 255, 255, 0.85);
     line-height: 1.6;
   }
   .check-list li::before {
     content: "✓";
-    color: var(--teal-d);
+    color: #7ee0d4;
     font-weight: 700;
     flex-shrink: 0;
     margin-top: 1px;
   }
   .card-allergy .check-list li::before {
-    color: var(--gold);
+    color: #f5d77a;
   }
 
   @media (max-width: 900px) {
