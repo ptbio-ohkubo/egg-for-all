@@ -1,0 +1,610 @@
+---
+import Layout from "../layouts/Layout.astro";
+const navLogo = `${import.meta.env.BASE_URL}logos/egg-for-all-9.svg`;
+const year = new Date().getFullYear();
+---
+
+<Layout
+  title="事前予約 — Egg for All"
+  description="アレルギー低減卵を使った商品の事前予約受付ページです。ゆでたまご・パン・クッキー・スポンジをご予約いただけます。"
+>
+  <!-- NAV -->
+  <nav class="faq-nav solid">
+    <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-brand">
+      <img class="logo" src={navLogo} width="150" height="62" alt="Egg for All" />
+    </a>
+    <div class="faq-nav-right">
+      <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-link">この卵について</a>
+      <a href={`${import.meta.env.BASE_URL}FAQDetail`} class="faq-nav-link">よくある質問</a>
+      <a href={`${import.meta.env.BASE_URL}reservation`} class="faq-nav-cta">事前予約 →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="faq-hero res-hero">
+    <div class="faq-hero-inner">
+      <div class="faq-hero-pill">PRE-ORDER RESERVATION</div>
+      <h1>事前<em>予約</em></h1>
+      <p>アレルギー低減卵を使った商品をいち早くお届けします。<br>ご希望の商品と個数をお選びください。</p>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="res-wrap">
+
+    <!-- NOTICE BANNER -->
+    <div class="res-notice">
+      <p>現在、事前予約を受け付けています。販売開始時にご連絡の上、ご注文を確定します。<br>商品の価格・仕様は変更になる場合があります。</p>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="res-section-label">PRODUCTS</div>
+    <h2 class="res-section-title">商品を<em>選ぶ</em></h2>
+    <p class="res-section-desc">各商品の数量を選択してください。</p>
+
+    <div class="product-grid" id="product-grid">
+      <!-- JS will render product cards here -->
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary" id="order-summary">
+      <div class="order-summary-title">ご注文内容</div>
+      <div class="order-lines" id="order-lines">
+        <div class="order-empty">商品を選択してください</div>
+      </div>
+      <div class="order-total" id="order-total" style="display:none">
+        <div class="order-total-row">
+          <span>合計金額</span>
+          <span class="order-total-price" id="total-price">¥0</span>
+        </div>
+        <div class="order-total-sub">※ 消費税込みの価格です</div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="res-form-wrap">
+      <div class="res-section-label">CONTACT INFO</div>
+      <h2 class="res-section-title">お客様<em>情報</em></h2>
+
+      <form class="res-form" id="res-form" novalidate>
+        <div class="form-row">
+          <label class="form-label" for="f-name">お名前 <span class="req">必須</span></label>
+          <input class="form-input" type="text" id="f-name" name="name" placeholder="山田 花子" required />
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="f-email">メールアドレス <span class="req">必須</span></label>
+          <input class="form-input" type="email" id="f-email" name="email" placeholder="example@email.com" required />
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="f-phone">電話番号 <span class="opt">任意</span></label>
+          <input class="form-input" type="tel" id="f-phone" name="phone" placeholder="090-0000-0000" />
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="f-zip">郵便番号 <span class="req">必須</span></label>
+          <input class="form-input" type="text" id="f-zip" name="zip" placeholder="000-0000" required />
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="f-address">住所 <span class="req">必須</span></label>
+          <input class="form-input" type="text" id="f-address" name="address" placeholder="東京都渋谷区〇〇 1-2-3" required />
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="f-address2">建物名・部屋番号 <span class="opt">任意</span></label>
+          <input class="form-input" type="text" id="f-address2" name="address2" placeholder="〇〇マンション 101号室" />
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="f-note">備考・アレルギー情報 <span class="opt">任意</span></label>
+          <textarea class="form-input form-textarea" id="f-note" name="note" placeholder="その他のアレルギーや、ご要望があればご記入ください。"></textarea>
+        </div>
+
+        <div class="form-submit-row">
+          <button class="form-submit" type="submit" id="submit-btn" disabled>
+            予約を申し込む →
+          </button>
+          <p class="form-note" id="form-hint">商品を1つ以上選択してください</p>
+        </div>
+      </form>
+
+      <!-- SUCCESS MESSAGE -->
+      <div class="form-success" id="form-success" style="display:none">
+        <div class="success-icon">✓</div>
+        <h3>ご予約を受け付けました</h3>
+        <p>登録いただいたメールアドレスへ確認メールをお送りします。<br>販売開始の際に改めてご連絡いたします。</p>
+      </div>
+    </div>
+
+    <!-- BACK CTA -->
+    <div class="back-cta">
+      <p>ご不明な点はお気軽にお問い合わせください。</p>
+      <a href="mailto:info@egg-for-all.jp" class="btn-teal">info@egg-for-all.jp</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="faq-footer">
+    <div class="faq-footer-inner">
+      <div class="faq-footer-top">
+        <div>
+          <img src={`${import.meta.env.BASE_URL}logos/egg-for-all-9.svg`} alt="Egg for All" class="faq-footer-logo" />
+          <div class="faq-footer-tagline">Ovomucoid FREE Technology by プラチナバイオ × 広島大学</div>
+        </div>
+        <div class="faq-footer-links">
+          <a href={`${import.meta.env.BASE_URL}`}>トップページ</a>
+          <a href={`${import.meta.env.BASE_URL}FAQDetail`}>よくある質問</a>
+          <a href="mailto:info@egg-for-all.jp">お問い合わせ</a>
+        </div>
+      </div>
+      <p class="faq-footer-copy">© {year} Egg for All. All rights reserved.</p>
+    </div>
+  </footer>
+</Layout>
+
+<script>
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  unit: string;
+  img: string;
+  desc: string;
+}
+
+const products: Product[] = [
+  { id: "egg",    name: "ゆでたまご", price: 200, unit: "個", img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=480&h=320&fit=crop&auto=format", desc: "アレルギー低減卵をそのまま味わえる、シンプルなゆでたまご" },
+  { id: "bread",  name: "パン",       price: 350, unit: "個", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=480&h=320&fit=crop&auto=format", desc: "ふっくら柔らかい、アレルギー低減卵使用の食パン" },
+  { id: "cookie", name: "クッキー",   price: 180, unit: "枚", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=480&h=320&fit=crop&auto=format", desc: "サクサク食感のバタークッキー。卵アレルギーの方も安心" },
+  { id: "sponge", name: "スポンジ",   price: 480, unit: "個", img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=480&h=320&fit=crop&auto=format", desc: "ふわふわのスポンジケーキ。そのままでもアレンジしても" },
+];
+
+const quantities: Record<string, number> = {};
+products.forEach(p => { quantities[p.id] = 0; });
+
+function renderProducts() {
+  const grid = document.getElementById("product-grid")!;
+  grid.innerHTML = products.map(p => `
+    <div class="product-card" id="card-${p.id}">
+      <div class="product-img-wrap"><img class="product-img" src="${p.img}" alt="${p.name}" loading="lazy" /></div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-price-tag">
+          <span class="product-price">¥${p.price.toLocaleString()}</span>
+          <span class="product-unit">/ ${p.unit}</span>
+        </div>
+        <div class="product-desc">${p.desc}</div>
+      </div>
+      <div class="qty-control">
+        <button class="qty-btn qty-dec" data-id="${p.id}" type="button" ${quantities[p.id] === 0 ? "disabled" : ""}>−</button>
+        <span class="qty-val" id="qty-${p.id}">${quantities[p.id]}</span>
+        <button class="qty-btn qty-inc" data-id="${p.id}" type="button">＋</button>
+      </div>
+      <div class="product-subtotal" id="sub-${p.id}" style="${quantities[p.id] > 0 ? "" : "display:none"}">
+        小計 ¥${(p.price * quantities[p.id]).toLocaleString()}
+      </div>
+    </div>
+  `).join("");
+
+  // Bind events
+  document.querySelectorAll<HTMLButtonElement>(".qty-inc").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id!;
+      quantities[id]++;
+      updateCard(id);
+      updateSummary();
+    });
+  });
+  document.querySelectorAll<HTMLButtonElement>(".qty-dec").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id!;
+      if (quantities[id] > 0) quantities[id]--;
+      updateCard(id);
+      updateSummary();
+    });
+  });
+}
+
+function updateCard(id: string) {
+  const p = products.find(p => p.id === id)!;
+  const q = quantities[id];
+  const qtyEl = document.getElementById("qty-" + id)!;
+  const subEl = document.getElementById("sub-" + id)!;
+  const decBtn = document.querySelector<HTMLButtonElement>(`.qty-dec[data-id="${id}"]`)!;
+  const card = document.getElementById("card-" + id)!;
+
+  qtyEl.textContent = String(q);
+  subEl.style.display = q > 0 ? "" : "none";
+  subEl.textContent = `小計 ¥${(p.price * q).toLocaleString()}`;
+  decBtn.disabled = q === 0;
+  card.classList.toggle("selected", q > 0);
+}
+
+function updateSummary() {
+  const lines = document.getElementById("order-lines")!;
+  const totalEl = document.getElementById("order-total")!;
+  const totalPriceEl = document.getElementById("total-price")!;
+  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+  const formHint = document.getElementById("form-hint")!;
+
+  const selected = products.filter(p => quantities[p.id] > 0);
+  const total = products.reduce((sum, p) => sum + p.price * quantities[p.id], 0);
+
+  if (!selected.length) {
+    lines.innerHTML = `<div class="order-empty">商品を選択してください</div>`;
+    totalEl.style.display = "none";
+    submitBtn.disabled = true;
+    formHint.textContent = "商品を1つ以上選択してください";
+  } else {
+    lines.innerHTML = selected.map(p => `
+      <div class="order-line">
+        <span class="order-line-name">${p.name}</span>
+        <span class="order-line-qty">${quantities[p.id]}${p.unit}</span>
+        <span class="order-line-price">¥${(p.price * quantities[p.id]).toLocaleString()}</span>
+      </div>
+    `).join("");
+    totalEl.style.display = "";
+    totalPriceEl.textContent = `¥${total.toLocaleString()}`;
+    submitBtn.disabled = false;
+    formHint.textContent = "お客様情報を入力して予約を申し込んでください";
+  }
+}
+
+// Form submit
+document.getElementById("res-form")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const form = e.target as HTMLFormElement;
+  const name = (form.querySelector("#f-name") as HTMLInputElement).value.trim();
+  const email = (form.querySelector("#f-email") as HTMLInputElement).value.trim();
+  if (!name || !email) return;
+
+  // Show success
+  form.style.display = "none";
+  document.getElementById("form-success")!.style.display = "";
+  window.scrollTo({ top: document.getElementById("form-success")!.offsetTop - 100, behavior: "smooth" });
+});
+
+renderProducts();
+updateSummary();
+</script>
+
+<style>
+/* NAV — reuse faq-nav styles from FAQDetail */
+:global(.faq-nav) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  padding: 0 48px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.4s;
+}
+:global(.faq-nav.solid) {
+  background: #ffffff;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(107, 159, 155, 0.12);
+}
+:global(.faq-nav-brand) {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+:global(.faq-nav-brand .logo-transparent) { display: none; }
+:global(.faq-nav-brand .logo-solid) { display: inline-block; height: 48px; width: 115px; }
+:global(.faq-nav-right) { display: flex; align-items: center; gap: 28px; }
+:global(.faq-nav-link) { font-size: 13px; color: #333333; text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s; }
+:global(.faq-nav-link:hover) { color: #a31616; }
+:global(.faq-nav-cta) {
+  font-size: 12px; font-weight: 500; padding: 9px 22px; border-radius: 40px;
+  background: #e5a51c; border: 1px solid #e5a51c; color: white;
+  text-decoration: none; letter-spacing: 0.5px; transition: all 0.2s;
+}
+:global(.faq-nav-cta:hover) { background: #c98e15; border-color: #c98e15; }
+
+/* HERO */
+:global(.faq-hero) {
+  background: linear-gradient(160deg, #5c8d8a 0%, #4a7e7a 100%);
+  padding: 140px 48px 88px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+:global(.res-hero::before) {
+  content: "RESERVE";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 200px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.04);
+  letter-spacing: 20px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+:global(.faq-hero-inner) { position: relative; z-index: 1; }
+:global(.faq-hero-pill) {
+  display: inline-block; font-size: 11px; letter-spacing: 3px; padding: 7px 22px;
+  border-radius: 40px; margin-bottom: 22px;
+  background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+:global(.faq-hero h1) {
+  font-family: "Noto Sans JP", sans-serif; font-size: 56px; font-weight: 700;
+  color: white; line-height: 1.15; margin-bottom: 16px;
+}
+:global(.faq-hero h1 em) { font-style: normal; color: #e5a51c; }
+:global(.faq-hero p) { font-size: 15px; color: rgba(255, 255, 255, 0.7); line-height: 1.85; max-width: 520px; margin: 0 auto; }
+
+/* MAIN WRAP */
+:global(.res-wrap) {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 72px 24px 100px;
+}
+
+/* NOTICE BANNER */
+:global(.res-notice) {
+  background: #fdecea;
+  border: 1.5px solid rgba(193, 26, 26, 0.15);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 60px;
+}
+:global(.res-notice p) { font-size: 14px; color: var(--text); line-height: 1.8; }
+
+/* SECTION LABELS */
+:global(.res-section-label) {
+  font-size: 11px; letter-spacing: 3px; font-weight: 500;
+  color: var(--teal-d); margin-bottom: 8px;
+}
+:global(.res-section-title) {
+  font-family: "Noto Sans JP", sans-serif; font-size: 36px; font-weight: 700;
+  color: var(--dark); line-height: 1.2; margin-bottom: 10px;
+}
+:global(.res-section-title em) { font-style: normal; color: #e5a51c; }
+:global(.res-section-desc) { font-size: 14px; color: #7a9290; margin-bottom: 36px; }
+
+/* PRODUCT GRID */
+:global(.product-grid) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 52px;
+}
+:global(.product-card) {
+  background: white;
+  border-radius: 18px;
+  padding: 28px 24px 24px;
+  border: none;
+  transition: all 0.25s;
+  box-shadow: 0 2px 12px rgba(107, 159, 155, 0.05);
+  cursor: default;
+}
+:global(.product-card:hover) {
+  border-color: rgba(107, 159, 155, 0.3);
+  box-shadow: 0 6px 24px rgba(107, 159, 155, 0.1);
+  transform: translateY(-2px);
+}
+:global(.product-card.selected) {
+  box-shadow: 0 8px 32px rgba(0, 94, 60, 0.12);
+}
+:global(.product-img-wrap) {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+:global(.product-img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+:global(.product-card:hover .product-img) {
+  transform: scale(1.04);
+}
+:global(.product-info) { margin-bottom: 20px; }
+:global(.product-name) {
+  font-size: 20px; font-weight: 700; color: var(--dark);
+  margin-bottom: 8px; font-family: "Noto Sans JP", sans-serif;
+}
+:global(.product-price-tag) {
+  display: flex; align-items: baseline; gap: 4px; margin-bottom: 10px;
+}
+:global(.product-price) {
+  font-size: 26px; font-weight: 700; color: var(--teal-d);
+  font-family: "Cormorant Garamond", serif;
+}
+:global(.product-unit) { font-size: 13px; color: #7a9290; }
+:global(.product-desc) { font-size: 13px; color: #7a9290; line-height: 1.7; }
+
+/* QTY CONTROL */
+:global(.qty-control) {
+  display: flex; align-items: center; gap: 0;
+  background: var(--teal-p); border-radius: 40px;
+  padding: 4px; margin-bottom: 12px;
+  width: fit-content;
+}
+:global(.qty-btn) {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: none; background: white; color: var(--teal-d);
+  font-size: 18px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: inherit;
+}
+:global(.qty-btn:hover:not(:disabled)) {
+  background: var(--teal-d); color: white;
+}
+:global(.qty-btn:disabled) {
+  opacity: 0.35; cursor: not-allowed;
+}
+:global(.qty-val) {
+  min-width: 48px; text-align: center;
+  font-size: 18px; font-weight: 700; color: var(--dark);
+}
+:global(.product-subtotal) {
+  font-size: 13px; font-weight: 600;
+  color: var(--teal-d); padding: 6px 14px;
+  background: var(--teal-p); border-radius: 8px;
+  display: inline-block;
+}
+
+/* ORDER SUMMARY */
+:global(.order-summary) {
+  background: white;
+  border-radius: 18px;
+  padding: 32px;
+  border: 1.5px solid rgba(107, 159, 155, 0.15);
+  box-shadow: 0 4px 20px rgba(107, 159, 155, 0.07);
+  margin-bottom: 60px;
+}
+:global(.order-summary-title) {
+  font-size: 16px; font-weight: 700; color: var(--dark);
+  padding-bottom: 16px; border-bottom: 1.5px solid var(--teal-p);
+  margin-bottom: 20px;
+}
+:global(.order-empty) {
+  font-size: 14px; color: #aaa; text-align: center; padding: 20px 0;
+}
+:global(.order-line) {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--teal-p);
+  font-size: 14px;
+}
+:global(.order-line-name) { flex: 1; color: var(--dark); font-weight: 500; }
+:global(.order-line-qty) { color: #7a9290; min-width: 40px; text-align: center; }
+:global(.order-line-price) { font-weight: 600; color: var(--teal-d); min-width: 80px; text-align: right; }
+:global(.order-total) { margin-top: 20px; }
+:global(.order-total-row) {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 18px; font-weight: 700; color: var(--dark);
+}
+:global(.order-total-price) {
+  font-size: 28px; font-weight: 700; color: var(--teal-d);
+  font-family: "Cormorant Garamond", serif;
+}
+:global(.order-total-sub) { font-size: 12px; color: #aaa; margin-top: 6px; text-align: right; }
+
+/* FORM */
+:global(.res-form-wrap) {
+  background: white;
+  border-radius: 18px;
+  padding: 40px;
+  border: 1.5px solid rgba(107, 159, 155, 0.15);
+  box-shadow: 0 4px 20px rgba(107, 159, 155, 0.07);
+  margin-bottom: 60px;
+}
+:global(.res-form) { margin-top: 32px; }
+:global(.form-row) { margin-bottom: 24px; }
+:global(.form-label) {
+  display: block; font-size: 13px; font-weight: 600;
+  color: var(--dark); margin-bottom: 8px;
+}
+:global(.req) {
+  font-size: 11px; background: #e8534e; color: white;
+  padding: 2px 8px; border-radius: 4px; margin-left: 6px;
+  font-weight: 600;
+}
+:global(.opt) {
+  font-size: 11px; background: var(--teal-p); color: var(--teal-d);
+  padding: 2px 8px; border-radius: 4px; margin-left: 6px;
+  font-weight: 600;
+}
+:global(.form-input) {
+  width: 100%; padding: 14px 18px;
+  border-radius: 12px; border: 1.5px solid rgba(107, 159, 155, 0.2);
+  background: var(--cream2); font-size: 15px; font-family: inherit;
+  color: var(--text); outline: none; transition: border 0.2s;
+}
+:global(.form-input:focus) { border-color: var(--teal-d); background: white; }
+:global(.form-input::placeholder) { color: #b0c4c3; }
+:global(.form-textarea) { min-height: 120px; resize: vertical; }
+:global(.form-submit-row) { margin-top: 32px; text-align: center; }
+:global(.form-submit) {
+  background: var(--teal-d); color: white;
+  padding: 16px 52px; border-radius: 40px; border: none;
+  font-size: 16px; font-weight: 600; cursor: pointer;
+  font-family: inherit; letter-spacing: 0.5px;
+  transition: all 0.25s; display: inline-block;
+  box-shadow: 0 4px 16px rgba(0, 94, 60, 0.2);
+}
+:global(.form-submit:hover:not(:disabled)) {
+  background: #004d32; transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(0, 94, 60, 0.3);
+}
+:global(.form-submit:disabled) {
+  background: #ccc; cursor: not-allowed; box-shadow: none;
+}
+:global(.form-note) { font-size: 13px; color: #7a9290; margin-top: 14px; }
+
+/* SUCCESS */
+:global(.form-success) {
+  text-align: center; padding: 60px 20px;
+}
+:global(.success-icon) {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--teal-d); color: white;
+  font-size: 32px; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+}
+:global(.form-success h3) {
+  font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 14px;
+}
+:global(.form-success p) {
+  font-size: 15px; color: #7a9290; line-height: 1.85;
+}
+
+/* BACK CTA (shared) */
+:global(.back-cta) { text-align: center; margin-top: 56px; padding-top: 48px; border-top: 1px solid rgba(107, 159, 155, 0.12); }
+:global(.back-cta p) { font-size: 15px; color: #7a9290; margin-bottom: 20px; }
+:global(.btn-teal) {
+  background: var(--teal-d); color: white; padding: 14px 36px;
+  border-radius: 40px; text-decoration: none; font-size: 14px;
+  font-weight: 500; letter-spacing: 0.5px; transition: all 0.25s; display: inline-block;
+}
+:global(.btn-teal:hover) { background: #4a7e7a; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(74, 126, 122, 0.3); }
+
+/* FOOTER (shared) */
+:global(.faq-footer) { background: var(--dark); padding: 56px 48px 44px; }
+:global(.faq-footer-inner) { max-width: 1200px; margin: 0 auto; }
+:global(.faq-footer-top) {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 32px; padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px;
+}
+:global(.faq-footer-logo) { display: block; height: 56px; width: auto; }
+:global(.faq-footer-tagline) { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 6px; letter-spacing: 1px; }
+:global(.faq-footer-links) { display: flex; gap: 28px; flex-wrap: wrap; }
+:global(.faq-footer-links a) { font-size: 13px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+:global(.faq-footer-links a:hover) { color: rgba(255,255,255,0.85); }
+:global(.faq-footer-copy) { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  :global(.faq-nav-link) { display: none; }
+  :global(.faq-nav-right) { gap: 12px; }
+}
+@media (max-width: 768px) {
+  :global(.faq-nav) { padding: 0 20px; }
+  :global(.faq-hero) { padding: 110px 20px 64px; }
+  :global(.faq-hero h1) { font-size: 40px; }
+  :global(.res-wrap) { padding: 48px 16px 72px; }
+  :global(.product-grid) { grid-template-columns: 1fr; }
+  :global(.res-form-wrap) { padding: 28px 20px; }
+  :global(.order-summary) { padding: 24px 20px; }
+  :global(.faq-footer) { padding: 40px 20px 28px; }
+  :global(.faq-footer-top) { flex-direction: column; }
+}
+</style>

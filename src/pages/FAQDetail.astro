@@ -1,8 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import eggForAllLogo from "../assets/egg-for-all_logo.svg";
-import eggForAllLogoT from "../assets/egg-for-all_logo-t.svg";
-import logoWy from "../assets/egg-for-all_logo-wy.svg";
+const navLogo = `${import.meta.env.BASE_URL}logos/egg-for-all-9.svg`;
 const year = new Date().getFullYear();
 ---
 
@@ -13,8 +11,7 @@ const year = new Date().getFullYear();
   <!-- NAV -->
   <nav class="faq-nav solid">
     <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-brand">
-      <img class="logo logo-transparent" src={eggForAllLogoT.src} width="115" height="48" alt="Egg for All" />
-      <img class="logo logo-solid" src={eggForAllLogo.src} width="115" height="48" alt="Egg for All" />
+      <img class="logo" src={navLogo} width="150" height="62" alt="Egg for All" />
     </a>
     <div class="faq-nav-right">
       <a href={`${import.meta.env.BASE_URL}`} class="faq-nav-link">この卵について</a>
@@ -63,7 +60,7 @@ const year = new Date().getFullYear();
     <div class="faq-footer-inner">
       <div class="faq-footer-top">
         <div>
-          <img src={logoWy.src} alt="Egg for All" class="faq-footer-logo" />
+          <img src={`${import.meta.env.BASE_URL}logos/egg-for-all-9.svg`} alt="Egg for All" class="faq-footer-logo" />
           <div class="faq-footer-tagline">Ovomucoid FREE Technology by プラチナバイオ × 広島大学</div>
         </div>
         <div class="faq-footer-links">
@@ -239,15 +236,9 @@ render(data);
   text-decoration: none;
 }
 :global(.faq-nav-brand .logo) {
-  transition: opacity 0.3s;
-}
-:global(.faq-nav-brand .logo-transparent) {
-  display: none;
-}
-:global(.faq-nav-brand .logo-solid) {
   display: inline-block;
-  height: 48px;
-  width: 115px;
+  height: 62px;
+  width: 150px;
 }
 :global(.faq-nav-right) {
   display: flex;
@@ -604,7 +595,7 @@ render(data);
 }
 :global(.faq-footer-logo) {
   display: block;
-  height: 32px;
+  height: 56px;
   width: auto;
 }
 :global(.faq-footer-tagline) {
